@@ -2,6 +2,7 @@
 using ASPLab.Data.Interfaces;
 using System.Collections.Generic;
 using ASPLab.Data.Models;
+using ASPLab.Data.ViewModels;
 
 namespace ASPLab.Data.Controllers
 {
@@ -16,8 +17,11 @@ namespace ASPLab.Data.Controllers
         }
         public ViewResult List()
         {
-            IEnumerable<Dish> Dishes = _allDish.Dishes;
-            return View(Dishes);
+            ViewBag.Title = "Страница с посудой";
+            DishListViewModels model = new DishListViewModels();
+            model.AllDishes = _allDish.Dishes;
+            model.currCategory = "Тарелки";          
+            return View(model);
         }
     }
 }

@@ -1,0 +1,23 @@
+﻿<!doctype html>
+<html>
+<head>
+        <meta name="viewport" content="width-device-width"/>
+        <title>List</title>
+</head>
+<body>
+    <h2>Вся посуда</h2>
+    <div class="row mt-5 mb-2">
+    @{
+    foreach (var dish in Model.AllDishes)
+    {
+        <div class="col-lg-4">       
+            <img class="img-thumbnail" src="@dish.Img" alt="@dish.Name"/>
+            <h2>Модель: @dish.Name</h2>
+            <p>Категория: @dish.Category.Name</p>
+            <p>Цена: @dish.Price.ToString("c")</p>
+            <p><a class="btn btn-warning" href="#">Подробнее</a></p>
+        </div>
+    } }
+    </div>
+</body>
+</html>

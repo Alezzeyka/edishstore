@@ -1,8 +1,13 @@
+using ASPLab.Data.DB;
+using ASPLab.Data.DB.Context;
+using ASPLab.Data.DB.Repository;
 using ASPLab.Data.Interfaces;
 using ASPLab.Data.Mocks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -14,22 +19,35 @@ namespace ASPLab
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+        private IConfigurationRoot _confRoot;
+        public Startup(IHostEnvironment hostEnvironment)
+        {
+            _confRoot = new ConfigurationBuilder()
+                .SetBasePath(hostEnvironment.ContentRootPath)
+                .AddJsonFile(@"Data/DB/dbsettings.json")
+                .Build();
+        }
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IAllDish, MockDish>();
-            services.AddTransient<IDishCategory, MockCategory>();
+            services.AddTransient<IAllDish, DishRepository>();
+            services.AddTransient<IDishCategory, CategoryRepository>();
             services.AddMvc(mvcOptions => { mvcOptions.EnableEndpointRouting = false; });
+            services.AddDbContext<AppDBContent>(options =>
+                options.UseSqlServer(_confRoot.GetConnectionString("DefaultConnection")));
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {            
             app.UseDeveloperExceptionPage();  //відображення помилок
             app.UseStatusCodePages();         //відображення коду сторінки
             app.UseStaticFiles();             //для відображення різних файлів, таких як зображення, css-файли та інше
             app.UseMvcWithDefaultRoute();     //для маршрутизації за замовчування
+            using(var scope = app.ApplicationServices.CreateScope())
+            {
+                AppDBContent appDBContent = scope.ServiceProvider.GetService<AppDBContent>();
+                appDBContent.Database.EnsureCreated();
+                DBObjectsInit.DefaultDBObjectsInitialization(appDBContent);
+            }
         }
     }
 }
