@@ -6,6 +6,6 @@ namespace ASPLab.Data.ViewModels
     public class DishListViewModels
     {
         public IEnumerable<Dish> AllDishes { get; set; }
-        public string currCategory { get; set; }
+        public Category currCategory { get; set; }
     }
 }

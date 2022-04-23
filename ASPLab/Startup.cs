@@ -3,6 +3,7 @@ using ASPLab.Data.DB.Context;
 using ASPLab.Data.DB.Repository;
 using ASPLab.Data.Interfaces;
 using ASPLab.Data.Mocks;
+using ASPLab.Data.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -31,13 +32,23 @@ namespace ASPLab
         {
             services.AddTransient<IAllDish, DishRepository>();
             services.AddTransient<IDishCategory, CategoryRepository>();
+            services.AddTransient<IUser, UserRepository>();
             services.AddMvc(mvcOptions => { mvcOptions.EnableEndpointRouting = false; });
             services.AddDbContext<AppDBContent>(options =>
                 options.UseSqlServer(_confRoot.GetConnectionString("DefaultConnection")));
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped(sp => ShopCart.GetCart(sp));
+            services.AddMvc(mvcOptions =>
+            {
+                mvcOptions.EnableEndpointRouting = false;
+            });
+            services.AddMemoryCache();
+            services.AddSession();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {            
+        {
+            app.UseSession();
             app.UseDeveloperExceptionPage();  //відображення помилок
             app.UseStatusCodePages();         //відображення коду сторінки
             app.UseStaticFiles();             //для відображення різних файлів, таких як зображення, css-файли та інше
@@ -48,6 +59,7 @@ namespace ASPLab
                 appDBContent.Database.EnsureCreated();
                 DBObjectsInit.DefaultDBObjectsInitialization(appDBContent);
             }
+            
         }
     }
 }

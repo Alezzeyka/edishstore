@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ASPLab.Data.Interfaces;
 using System.Collections.Generic;
 using ASPLab.Data.Models;
 using ASPLab.Data.ViewModels;
+using System.Linq;
 
 namespace ASPLab.Data.Controllers
 {
@@ -15,13 +17,31 @@ namespace ASPLab.Data.Controllers
             _allDish = allDish;
             _AllCategories = dishCategory;
         }
-        public ViewResult List()
+        [Route("Dish/List/{category}")]
+        public ViewResult List(string category)
         {
-            ViewBag.Title = "Страница с посудой";
             DishListViewModels model = new DishListViewModels();
-            model.AllDishes = _allDish.Dishes;
-            model.currCategory = "Тарелки";          
+            model.currCategory = _AllCategories.Categories
+                .Where(cat => cat.Name == category)
+                .FirstOrDefault();                
+            if(model.currCategory == null)
+            {
+                return View("NotFoundCategory") ;
+            }            
+            ViewBag.Title = model.currCategory.Name;
+            model.AllDishes = _allDish.Dishes.Where(dish => dish.Category == model.currCategory);
             return View(model);
+        }
+        public IActionResult ListName(string name)
+        {
+            DishListViewModels model = new DishListViewModels();
+            model.AllDishes = _allDish.Dishes
+                .Where(dish => dish.Name == name);
+            model.currCategory = new Category()
+            {
+                Name = "Результат поиска",
+            };
+            return View("List",model);
         }
     }
 }

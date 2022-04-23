@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -11,26 +12,46 @@
     <header>
   <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Carousel</a>
+      <a class="navbar-brand" href="/Home/Index">Магазин посуды</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            <a class="nav-link active" aria-current="page" href="/Home/Index">Главная</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link" href="/ShopCart/Index">Корзина</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link disabled">Disabled</a>
+            <a class="nav-link" href="/Dish/List/Тарелки">Тарелки</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/Dish/List/Чашки">Чашки</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/Dish/List/Стаканы">Стаканы</a>
+          </li>                
         </ul>
-        <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+        @{
+            if(Context.Session.GetString("UserID") == null)
+            {                
+                <form action=/User/Register style="margin-right:6px">
+                    <button class="btn btn-outline-success" type="submit">Регистрация</button>
+                </form>                               
+                <form action=/User/LoginPage>
+                    <button class="btn btn-outline-success" type="submit" href="">Войти</button>
+                </form>                
+            }
+            else
+            {
+                <p style="color:white;margin-right:6px;">Пользователь: @Context.Session.GetString("UserName")</p>                       
+                <form action=/User/LogOut>
+                    <button class="btn btn-outline-success" type="submit" href="">Выйти</button>
+                </form>
+            }
+        }
       </div>
     </div>
   </nav>

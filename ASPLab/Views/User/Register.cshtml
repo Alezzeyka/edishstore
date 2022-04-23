@@ -1,0 +1,39 @@
+﻿@model ASPLab.Data.Models.User
+<body>
+<div class="row mt-5 mb-2">
+ <h3>Регистрация</h3>
+ <form asp-action="AddUser" method="post" class="formhorizontal">
+     <div class="form-group">
+         <label asp-for="Name"></label>
+         <div class="col-md-5">
+             <input asp-for="Name" class="form-control" />
+         </div>
+     </div>
+     <div class="form-group">
+         <label asp-for="Login"></label>
+         <div class="col-md-5">
+             <input asp-for="Login" class="form-control" />
+         </div>
+     </div>
+     <div class="form-group">
+         <label asp-for="Password"></label>
+         <div class="col-md-5">
+             <input asp-for="Password" class="form-control" />
+         </div>
+     </div>
+     <div class="form-group">
+         <label asp-for="Email"></label>
+         <div class="col-md-5">
+             <input asp-for="Email" class="form-control" />
+         </div>
+     </div>
+     <div class="form-group">
+         <label asp-for="PhoneNumber"></label>
+         <div class="col-md-5">
+             <input asp-for="PhoneNumber" class="form-control" />
+         </div>
+     </div>
+     <input class="btn btn-success" type="submit" value="Зарегистрироваться"/>
+ </form>
+</div>
+</body>

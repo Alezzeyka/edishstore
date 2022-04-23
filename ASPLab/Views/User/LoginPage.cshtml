@@ -1,0 +1,21 @@
+﻿@model ASPLab.Data.Models.User
+<body>
+    <div class="row mt-5 mb-2">
+    <h3>Вход</h3>
+    <form asp-action="Login" method="post" class="formhorizontal">
+     <div class="form-group">
+         <a>Логин</a>
+         <div class="col-md-5">
+             <input class="form-control me-2" type="text" placeholder="Логин" aria-label="Login" name="login">
+         </div>
+     </div>
+     <div class="form-group">
+         <a>Пароль</a>
+         <div class="col-md-5">
+             <input class="form-control me-2" type="text" placeholder="Пароль" aria-label="Password" name="password">
+         </div>
+     </div>
+     <input class="btn btn-success" type="submit" value="Войти"/>
+ </form>
+ </div>
+</body>

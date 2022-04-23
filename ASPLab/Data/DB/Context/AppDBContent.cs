@@ -9,6 +9,8 @@ namespace ASPLab.Data.DB.Context
         { }
         public DbSet<Dish> Dishes { get; set; }
         public DbSet<Category> Category { get; set; }
+        public DbSet<ShopCartItem> ShopCartItems { get; set; }
+        public DbSet<User> User { get; set; }
 
     }
 }
