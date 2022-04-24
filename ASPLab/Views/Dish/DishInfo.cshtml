@@ -1,0 +1,18 @@
+﻿@model ASPLab.Data.Models.Dish;
+<body>
+<div class="row mt-5 mb-2">
+    <h1>Страница товара @Model.Name</h1>
+     @{
+    <div class="col-lg-4">
+            <img class="img-thumbnail" src="@Model.Img" alt="@Model.Name" />
+            <h2>Модель: @Model.Name</h2>
+            <p>Категория: @Model.Category.Name</p>
+            <p>Цвет: @Model.Color</p>
+            <p>Материал: @Model.Material</p>
+            <p>Объём: @Model.Volume</p>
+            <p>Цена: @Model.Price.ToString("c")</p>
+            <p><a class="btn btn-warning" asp-controller="ShopCart" asp-action="AddToCart" asp-route-dishID="@Model.ID">Добавить в корзину</a></p>
+    </div>
+     }
+</div>
+</body>

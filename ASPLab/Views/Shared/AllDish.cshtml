@@ -10,7 +10,7 @@
             <h2>Модель: @Model.Name</h2>
             <p>Категория: @Model.Category.Name</p>
             <p>Цена: @Model.Price.ToString("c")</p>
-            <p><a class="btn btn-warning" href="#">Подробнее</a></p>
+            <p><a class="btn btn-warning" asp-controller="Dish" asp-action="DishInfo" asp-route-dishID="@Model.ID">Подробнее</a></p>
     </div>
 </body>
 </html>

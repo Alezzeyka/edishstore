@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using ASPLab.Data.Models;
 using ASPLab.Data.ViewModels;
 using System.Linq;
+using System;
 
 namespace ASPLab.Data.Controllers
 {
@@ -42,6 +43,13 @@ namespace ASPLab.Data.Controllers
                 Name = "Результат поиска",
             };
             return View("List",model);
+        }
+        
+        public ViewResult DishInfo(Guid dishID)
+        {
+            Dish model = new Dish();
+            model = _allDish.GetDish(dishID);
+            return View(model);
         }
     }
 }

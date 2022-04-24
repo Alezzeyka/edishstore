@@ -2,11 +2,10 @@
 
 namespace ASPLab.Data.Models
 {
-    public class ShopCartItem
+    public class OrderDetail
     {
         public Guid ID { get; set; }
+        public Order Order { get; set; }
         public Dish Dish { get; set; }
-        public float Price { get; set; }
-        public Guid ShopCartID { get; set; }
     }
 }

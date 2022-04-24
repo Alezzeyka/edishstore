@@ -33,6 +33,7 @@ namespace ASPLab
             services.AddTransient<IAllDish, DishRepository>();
             services.AddTransient<IDishCategory, CategoryRepository>();
             services.AddTransient<IUser, UserRepository>();
+            services.AddTransient<IOrder, OrderRepository>();
             services.AddMvc(mvcOptions => { mvcOptions.EnableEndpointRouting = false; });
             services.AddDbContext<AppDBContent>(options =>
                 options.UseSqlServer(_confRoot.GetConnectionString("DefaultConnection")));

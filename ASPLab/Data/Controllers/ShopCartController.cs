@@ -1,6 +1,7 @@
 ﻿using ASPLab.Data.Interfaces;
 using ASPLab.Data.Models;
 using ASPLab.Data.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,10 @@ namespace ASPLab.Data.Controllers
         }
         public RedirectToActionResult AddToCart(Guid dishID)
         {
+            if (HttpContext.Session.GetString("UserID") == null)
+            {
+                return RedirectToAction("LoginPage","User");
+            }
             var dish = _allDish.Dishes.FirstOrDefault(item => item.ID == dishID);
             if (dish != null)
             {
