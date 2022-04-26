@@ -50,10 +50,10 @@ namespace ASPLab
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseSession();
-            app.UseDeveloperExceptionPage();  //відображення помилок
-            app.UseStatusCodePages();         //відображення коду сторінки
-            app.UseStaticFiles();             //для відображення різних файлів, таких як зображення, css-файли та інше
-            app.UseMvcWithDefaultRoute();     //для маршрутизації за замовчування
+            app.UseDeveloperExceptionPage();  
+            app.UseStatusCodePages();        
+            app.UseStaticFiles();             
+            app.UseMvcWithDefaultRoute();     
             using(var scope = app.ApplicationServices.CreateScope())
             {
                 AppDBContent appDBContent = scope.ServiceProvider.GetService<AppDBContent>();
