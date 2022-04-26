@@ -26,11 +26,22 @@ namespace ASPLab.Data.Controllers
             HttpContext.Session.SetString("UserName", user.Name);
             return RedirectToAction("Index", "Home");
         }
+        [HttpPost]
         public IActionResult AddUser(User user)
         {
-            _user.AddUser(user);
-            Login(user.Login,user.Password);
-            return RedirectToAction("Index", "Home");
+            if (ModelState.IsValid)
+            {
+
+                if (_user.Users.Where(u => u.Login == user.Login).FirstOrDefault() != null)
+                {
+                    user.Login = null;
+                    return RedirectToAction("Register",user);
+                }
+                _user.AddUser(user);
+                return RedirectToAction("LoginPage");
+            }
+            return View("Register",user);   
+            
         }
         public ViewResult Register()
         {
