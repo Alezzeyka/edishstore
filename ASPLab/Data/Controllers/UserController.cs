@@ -20,6 +20,7 @@ namespace ASPLab.Data.Controllers
                 .FirstOrDefault();
             if(user == null)
             {
+                ViewBag.Message = "Неправильный логин или пароль";
                 return View("Error");
             }
             HttpContext.Session.SetString("UserID", user.ID.ToString());
