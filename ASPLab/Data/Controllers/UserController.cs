@@ -59,5 +59,20 @@ namespace ASPLab.Data.Controllers
             HttpContext.Session.Remove("UserName");
             return RedirectToAction("Index", "Home");
         }
+        public ViewResult PersonalInfo(System.Guid userID)
+        {
+            User user = _user.Users
+                .Where(user => user.ID==userID)
+                .FirstOrDefault();
+            if (user == null)
+            {
+                ViewBag.Message = "Неправильный логин или пароль";
+                return View("Error");
+            }
+            HttpContext.Session.SetString("UserID", user.ID.ToString());
+            HttpContext.Session.SetString("UserName", user.Name);
+            return View(user);
+        }
+
     }
 }
