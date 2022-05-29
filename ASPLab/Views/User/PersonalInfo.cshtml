@@ -1,0 +1,34 @@
+﻿@model ASPLab.Data.Models.User
+<body>
+<div style="width:80%" class="row mt-5 mb-2">
+    <table width="150" class="table">
+        <tr>
+            <td class="align-content-center-bold">Персональные данные</td>
+        </tr>
+        <tr>
+            <td>
+            @Model.Email
+            </td>
+        </tr>
+        <tr>
+            <td>
+            @Model.Login
+            </td>
+        </tr>
+        <tr>
+            <td>
+            @Model.Name
+            </td>
+        </tr>
+        <tr>
+            <td>
+            @Model.PhoneNumber
+            </td>
+        </tr>
+        <tr>
+        <td>@Html.ActionLink("Изменить данные", "Delete", "Account", new { @class = "btn btn-danger btn-lg pull-right" })</td>
+        <td>@Html.ActionLink("Удалить учетную запись", "Delete", "Account", new { @class = "btn btn-danger btn-lg pull-right" })</td>
+        </tr>
+    </table>
+</div>
+</body>
