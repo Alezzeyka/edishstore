@@ -110,7 +110,7 @@ namespace ASPLab.Data.Controllers
             {
                 sum += item.Dish.Price;
             }
-            return sum;
+            return Math.Round(sum,2);
         }
         
     }
