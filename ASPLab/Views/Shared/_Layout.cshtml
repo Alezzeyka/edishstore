@@ -34,8 +34,7 @@
             <a class="nav-link" href="/Dish/List/Стаканы">Стаканы</a>
           </li>                
         </ul>
-        @{
-            if(Context.Session.GetString("UserID") == null)
+            @if(Context.Session.GetString("UserID") == null)
             {                
                 <form action=/User/Register style="margin-right:6px">
                     <button class="btn btn-outline-success" type="submit">Регистрация</button>
@@ -46,12 +45,11 @@
             }
             else
             {
-                <p style="color:white;margin-right:6px;">Пользователь: @Context.Session.GetString("UserName")</p>                       
-                <form action=/User/LogOut>
-                    <button class="btn btn-outline-success" type="submit" href="">Выйти</button>
-                </form>
+                <p style="color:white;margin-right:6px;">Пользователь: @Context.Session.GetString("UserName")</p>  
+                
+                @Html.ActionLink("Кабинет", "PersonalInfo", "User", new { userID=Context.Session.GetString("UserID")}, new { @class="btn btn-outline-success" })            
+                @Html.ActionLink("Выйти", "LogOut", "User",null , new { @class="btn btn-outline-success" })            
             }
-        }
       </div>
     </div>
   </nav>
