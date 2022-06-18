@@ -1,8 +1,10 @@
 ﻿using ASPLab.Data.DB.Context;
 using ASPLab.Data.Interfaces;
 using ASPLab.Data.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ASPLab.Data.DB.Repository
 {
@@ -16,6 +18,7 @@ namespace ASPLab.Data.DB.Repository
             _db = db;
             this.shopCart = shopCart;
         }
+        public IEnumerable<Order> Orders => _db.Order;
 
         public void CreateOrder(Order order)
         {
@@ -33,6 +36,15 @@ namespace ASPLab.Data.DB.Repository
                 _db.OrderDetail.Add(orderDetail);
             }
             _db.SaveChanges();
+        }
+
+        public List<Order> GetUserOrders(Guid userId)
+        {
+            return _db.Order
+                .Where(order => order.User.ID == userId)
+                .Include(order => order.OrgerDetails)
+                .Select(order => order)
+                .ToList();
         }
     }
 }

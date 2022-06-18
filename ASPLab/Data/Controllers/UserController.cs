@@ -1,7 +1,10 @@
 ﻿using ASPLab.Data.Interfaces;
 using ASPLab.Data.Models;
+using ASPLab.Data.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ASPLab.Data.Controllers
@@ -9,6 +12,7 @@ namespace ASPLab.Data.Controllers
     public class UserController:Controller
     {
         private IUser _user;
+        private IOrder _order;
         public UserController(IUser user)
         {
             _user = user;
@@ -59,20 +63,47 @@ namespace ASPLab.Data.Controllers
             HttpContext.Session.Remove("UserName");
             return RedirectToAction("Index", "Home");
         }
-        public ViewResult PersonalInfo(System.Guid userID)
+        public ViewResult PersonalInfo(Guid userID)
         {
-            User user = _user.Users
+            UserOrderViewModel model = new UserOrderViewModel();
+
+            model.user = _user.Users
                 .Where(user => user.ID==userID)
                 .FirstOrDefault();
-            if (user == null)
+            model.listUserOrderDetails = GetUserOrderDetails(model.user.ID);
+            if (model.user == null)
             {
                 ViewBag.Message = "Неправильный логин или пароль";
                 return View("Error");
             }
-            HttpContext.Session.SetString("UserID", user.ID.ToString());
-            HttpContext.Session.SetString("UserName", user.Name);
-            return View(user);
+            HttpContext.Session.SetString("UserID", model.user.ID.ToString());
+            HttpContext.Session.SetString("UserName", model.user.Name);
+            return View(model);
         }
-
+        private List<UserOrderDetails> GetUserOrderDetails(Guid userId)
+        {
+            List<UserOrderDetails> userOrderDetails = new List<UserOrderDetails>();
+            List<Order> order = _order.GetUserOrders(userId);
+            foreach (Order item in order)
+            {
+                userOrderDetails.Add(new UserOrderDetails
+                {
+                    OrderId = item.ID,
+                    orderDate = item.orderTime,
+                    orderSum = GetOrderSum(item)
+                });
+            }
+            return userOrderDetails;
+        }
+        private double GetOrderSum(Order order)
+        {
+            double sum = 0;
+            foreach(OrderDetail item in order.OrgerDetails)
+            {
+                sum += item.Dish.Price;
+            }
+            return sum;
+        }
+        
     }
 }
