@@ -13,9 +13,10 @@ namespace ASPLab.Data.Controllers
     {
         private IUser _user;
         private IOrder _order;
-        public UserController(IUser user)
+        public UserController(IUser user, IOrder order)
         {
             _user = user;
+            _order = order;
         }
         public IActionResult Login(string login, string password)
         {
@@ -70,7 +71,7 @@ namespace ASPLab.Data.Controllers
             model.user = _user.Users
                 .Where(user => user.ID==userID)
                 .FirstOrDefault();
-            model.listUserOrderDetails = GetUserOrderDetails(model.user.ID);
+            model.listUserOrderDetails = GetUserOrderDetails(model.user.ID);  
             if (model.user == null)
             {
                 ViewBag.Message = "Неправильный логин или пароль";
@@ -82,18 +83,25 @@ namespace ASPLab.Data.Controllers
         }
         private List<UserOrderDetails> GetUserOrderDetails(Guid userId)
         {
-            List<UserOrderDetails> userOrderDetails = new List<UserOrderDetails>();
-            List<Order> order = _order.GetUserOrders(userId);
-            foreach (Order item in order)
+            try
             {
-                userOrderDetails.Add(new UserOrderDetails
+                List<UserOrderDetails> userOrderDetails = new List<UserOrderDetails>();
+                List<Order> order = _order.GetUserOrders(userId);
+                foreach (Order item in order)
                 {
-                    OrderId = item.ID,
-                    orderDate = item.orderTime,
-                    orderSum = GetOrderSum(item)
-                });
+                    userOrderDetails.Add(new UserOrderDetails
+                    {
+                        OrderId = item.ID,
+                        orderDate = item.orderTime,
+                        orderSum = GetOrderSum(item)
+                    });
+                }
+                return userOrderDetails;
             }
-            return userOrderDetails;
+            catch
+            {
+                return null;
+            }
         }
         private double GetOrderSum(Order order)
         {

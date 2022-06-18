@@ -1,43 +1,29 @@
-﻿@model ASPLab.Data.ViewModels.UserOrderViewModel
+﻿@using ASPLab.Data.Models
+@model ASPLab.Data.ViewModels.UserOrderViewModel
 <body>
-    <div class="row mt-5 mb-2">
+    <div class="row" style="margin-top:3.5%">
         <div class="col-lg-2" style="width:20%">
-        <table class="table">
-            <tr>
-                <td class="align-content-center-bold">Персональные данные</td>
-            </tr>
-            <tr>
-                <td>
-                @Model.Email
-                </td>
-            </tr>
-            <tr>
-                <td>
-                @Model.Login
-                </td>
-            </tr>
-            <tr>
-                <td>
-                @Model.Name
-                </td>
-            </tr>
-            <tr>
-                <td>
-                @Model.PhoneNumber
-                </td>
-            </tr>
-            <tr>
-            <td>
-                @Html.ActionLink("Изменить данные", "Delete", "Account", new { @class = "btn btn-danger btn-lg pull-right" })
-                @Html.ActionLink("Удалить учетную запись", "Delete", "Account", new { @class = "btn btn-danger btn-lg pull-right" })
-            </td>
-
-            </tr>
-        </table>
+            <b>Почта:</b><p>@Model.user.Email</p>
+            <b>Логин:</b><p>@Model.user.Login</p>
+            <b>Имя:</b><p>@Model.user.Name</p>
+            <b>Тел.:</b><p>@Model.user.PhoneNumber</p>
+            @Html.ActionLink("Изменить данные", "Edit", "Account", null, new { @class = "btn btn-success" })
+            @Html.ActionLink("Удалить учетную запись", "Delete", "Account", null, new { @class = "btn btn-danger" })
         </div>
-    
-    <div class="col-lg-2" style="width:80%">
-    жопа абоба
-    </div>
+        <div class="col-lg-2" style="width:80%">
+            @{
+                if (Model.listUserOrderDetails != null)
+                {
+                foreach (UserOrderDetails item in Model.listUserOrderDetails)
+                    {
+                        <div><span>@item.orderDate;</span><span>@item.orderDate;</span><span>@item.orderDate;</span></div>
+                    }
+                }
+                else
+                {
+                <b>У вас еще нет заказов</b>
+                }
+            }
+        </div>
     </div>
 </body>
