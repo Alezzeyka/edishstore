@@ -11,17 +11,30 @@
             @Html.ActionLink("Удалить учетную запись", "Delete", "Account", null, new { @class = "btn btn-danger" })
         </div>
         <div class="col-lg-2" style="width:80%">
+            <h2>Ваши заказы</h2>
             @{
                 if (Model.listUserOrderDetails != null)
                 {
-                foreach (UserOrderDetails item in Model.listUserOrderDetails)
-                    {
-                        <div><span>@item.OrderId</span><span>@item.orderDate</span><span>@item.orderSum</span></div>
-                    }
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>ID</th>
+                                <th>Дата</th>
+                                <th>Сумма</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (UserOrderDetails item in Model.listUserOrderDetails)
+                            {
+                                <tr><td style="width:75px">@Html.ActionLink("Подробнее", "Info", "Order", null, new { @class = "btn btn-info" })</td><td>@item.OrderId</td><td>@item.orderDate</td><td>@item.orderSum</td></tr>
+                            }
+                        </tbody>
+                    </table>
                 }
                 else
                 {
-                <b>У вас еще нет заказов</b>
+                    <h3>У вас еще нет заказов</h3>
                 }
             }
         </div>
