@@ -40,20 +40,12 @@ namespace ASPLab.Data.DB.Repository
 
         public List<Order> GetUserOrders(Guid userId)
         {
-            List<Order> order = _db.Order
+            return _db.Order
                 .Where(order => order.User.ID == userId)
                 .Select(order => order)
-                .ToList();
-            foreach (Order item in order)
-            {
-                item.OrgerDetails = _db.OrderDetail
-                    .Where(od => od.Order.ID == item.ID)
-                    .Include(od => od.Dish)
-                    .Include(od => od.Order)
-                    .Select(od => od)
-                    .ToList();
-            }
-            return order;
+                .Include(order => order.OrgerDetails)
+                .ThenInclude(od => od.Dish)
+                .ToList(); ;
         }
     }
 }
