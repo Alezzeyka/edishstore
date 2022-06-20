@@ -112,6 +112,44 @@ namespace ASPLab.Data.Controllers
             }
             return Math.Round(sum,2);
         }
-        
+        public ViewResult Edit()
+        {
+            return View(_user.GetUserById(new Guid(HttpContext.Session.GetString("UserID"))));
+        }
+        public ViewResult EditPassword()
+        {
+            return View(_user.GetUserById(new Guid(HttpContext.Session.GetString("UserID"))));
+        }
+        public IActionResult ChangePassword(string oldPassword, string newPasswordFirst, string newPasswordSecond)
+        {
+            User user = _user.GetUserById(new Guid(HttpContext.Session.GetString("UserID")));
+            if(oldPassword == user.Password && newPasswordFirst == newPasswordSecond)
+            {
+                user.Password = newPasswordSecond;
+                _user.UpdateUserInfo(user);
+                return RedirectToAction("PersonalInfo", new Guid(HttpContext.Session.GetString("UserID")));
+            }
+            ViewBag.Message = "Неправильный пароль";
+            return View("Error");
+        }
+        public IActionResult ApplyChanges(User user)
+        {
+            user.Email = _user.GetUserById(new Guid(HttpContext.Session.GetString("UserID"))).Email;
+            if (ModelState.IsValid)
+            {
+                if (_user.Users.Where(u => u.Login == user.Login).FirstOrDefault() != null)
+                {
+                    user.Login = null;
+                    return View("Edit", user);
+                }
+                _user.UpdateUserInfo(user);
+                return RedirectToAction("PersonalInfo", new Guid(HttpContext.Session.GetString("UserID")));
+            }
+            else
+            {
+                return View("Edit", user);
+            }            
+        }
+
     }
 }
