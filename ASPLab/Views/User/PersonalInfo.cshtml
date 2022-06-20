@@ -1,55 +1,76 @@
 ﻿@using ASPLab.Data.Models
 @model ASPLab.Data.ViewModels.UserOrderViewModel
 <body style="overflow:hidden">
-    <div class="row" style="margin-top: 3.5%">
-        <div class="col-lg-2" style="width:20%">
-            <h2>Ваши данные</h2>
-            <b>Почта:</b><p>@Model.user.Email</p>
-            <b>Логин:</b><p>@Model.user.Login</p>
-            <b>Имя:</b><p>@Model.user.Name</p>
-            <b>Тел.:</b><p>@Model.user.PhoneNumber</p>
-            @Html.ActionLink("Изменить данные", "Edit", "Account", null, new { @class = "btn btn-success" })
-            @Html.ActionLink("Удалить учетную запись", "Delete", "Account", null, new { @class = "btn btn-danger"})
+    <div class="row">
+        <div class="col-sm-2">
+            <h2>Ваши Данные</h2>
+            <ol class="list-group list-group shadow-lg p-3 mb-5 bg-body rounded">
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">Почта:</div>
+                        @Model.user.Email
+                    </div>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">Логин:</div>
+                        @Model.user.Login
+                    </div>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">Имя:</div>
+                        @Model.user.Name
+                    </div>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">Тел.:</div>
+                        @Model.user.PhoneNumber
+                    </div>
+                </li>
+                <li class="list-group-item align-items-start">
+                    <div class="d-grid gap-1">
+                        @Html.ActionLink("Изменить данные", "Edit", "Account", null, new { @class = "btn btn-outline-success" })
+                        @Html.ActionLink("Изменить пароль", "Edit", "Account", null, new { @class = "btn btn-outline-warning" })
+                        @Html.ActionLink("Удалить учетную запись", "Delete", "Account", null, new { @class = "btn btn-outline-danger" })
+                    </div>
+                </li>
+            </ol>
         </div>
-        <div style="width: 80%">
-            <h2>Ваши заказы</h2>
-            @{
-                if (Model.listUserOrderDetails.Count>=1)
-                {
-                    <table class="table">
-                            <tr>
-                                <td>
-                                    <table>
-                                            <tr>
-                                                <th style="width:7vw"></th>
-                                                <th style="width:9vw">ID</th>
-                                                <th style="width:46vw">Дата</th>
-                                                <th style="width:7vw">Сумма</th>
-                                            </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div style="height: 70vh; overflow-x: hidden; overflow-y: scroll">
-                                        <table class="table table-striped">
-                                            <tbody>
-                                            @foreach (UserOrderDetails item in Model.listUserOrderDetails)
-                                            {
-                                                <tr><td style="width:75px">@Html.ActionLink("Подробнее", "Info", "Order", new { orderID = item.OrderId }, new { @class = "btn btn-outline-info" })</td><td>@item.OrderNumber</td><td>@item.orderDate</td><td>@item.orderSum</td></tr>
-                                            }
-                                            </tbody>
-                                        </table>
+        <div class="col-sm-10">
+            <div class="row"><h2>Ваши заказы</h2></div>
+            <div class="row">
+                @{
+                    if (Model.listUserOrderDetails.Count >= 1)
+                    {
+                        <div class="container border border-light shadow p-3 mb-5 bg-body rounded">
+                            <div class="row bg-light align-items-start">
+                                <div class="col" style="max-width:150px"></div>
+                                <div class="col"><h3>ID</h3></div>
+                                <div class="col"><h3>Дата</h3></div>
+                                <div class="col"><h3>Сумма</h3></div>
+                            </div>
+                            <div style="height: 70vh; overflow-x: hidden; overflow-y: scroll">
+                                @foreach (UserOrderDetails item in Model.listUserOrderDetails)
+                                {
+                                    <div class="row bg-light align-items-start">
+                                        <div class="col d-grid" style="max-width:150px">@Html.ActionLink("Подробнее", "Info", "Order", new { orderID = item.OrderId }, new { @class = "btn btn-outline-info" })</div>
+                                        <div class="col">@item.OrderNumber</div>
+                                        <div class="col">@item.orderDate</div>
+                                        <div class="col">@item.orderSum</div>
                                     </div>
-                                </td>
-                            </tr>
-                    </table>
+
+                                }
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <h3>У вас еще нет заказов</h3>
+                    }
                 }
-                else
-                {
-                    <h3>У вас еще нет заказов</h3>
-                }
-            }
+            </div>
         </div>
     </div>
 </body>

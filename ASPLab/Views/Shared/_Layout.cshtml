@@ -45,7 +45,7 @@
             }
             else
             {
-                <p style="color:white;margin-right:6px;">Пользователь: @Context.Session.GetString("UserName")</p>  
+                <div class="btn btn-outline-light disabled">Пользователь: @Context.Session.GetString("UserName")</div>  
                 
                 @Html.ActionLink("Кабинет", "PersonalInfo", "User", new { userID=Context.Session.GetString("UserID")}, new { @class="btn btn-outline-success" })            
                 @Html.ActionLink("Выйти", "LogOut", "User",null , new { @class="btn btn-outline-success" })            
