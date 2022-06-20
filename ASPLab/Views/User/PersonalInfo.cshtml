@@ -27,7 +27,7 @@
                         <tbody>
                             @foreach (UserOrderDetails item in Model.listUserOrderDetails)
                             {
-                                <tr><td style="width:75px">@Html.ActionLink("Подробнее", "Info", "Order", null, new { @class = "btn btn-info" })</td><td>@item.OrderId</td><td>@item.orderDate</td><td>@item.orderSum</td></tr>
+                                <tr><td style="width:75px">@Html.ActionLink("Подробнее", "Info", "Order", null, new { @class = "btn btn-outline-info" })</td><td>@item.OrderId</td><td>@item.orderDate</td><td>@item.orderSum</td></tr>
                             }
                         </tbody>
                     </table>
