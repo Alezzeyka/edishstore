@@ -123,7 +123,7 @@ namespace ASPLab.Data.Controllers
         public IActionResult ChangePassword(string oldPassword, string newPasswordFirst, string newPasswordSecond)
         {
             User user = _user.GetUserById(new Guid(HttpContext.Session.GetString("UserID")));
-            if(oldPassword == user.Password && newPasswordFirst == newPasswordSecond)
+            if(oldPassword == user.Password && newPasswordFirst == newPasswordSecond && user.Password != newPasswordSecond)
             {
                 user.Password = newPasswordSecond;
                 _user.UpdateUserInfo(user);
