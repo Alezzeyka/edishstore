@@ -18,6 +18,10 @@ namespace ASPLab.Data.Controllers
             _user = user;
             _order = order;
         }
+        private User GetCurrentUser()
+        {
+            return _user.GetUserById(new Guid(HttpContext.Session.GetString("UserID")));
+        }
         public IActionResult Login(string login, string password)
         {
             User user = _user.Users
@@ -114,15 +118,15 @@ namespace ASPLab.Data.Controllers
         }
         public ViewResult Edit()
         {
-            return View(_user.GetUserById(new Guid(HttpContext.Session.GetString("UserID"))));
+            return View(GetCurrentUser());
         }
         public ViewResult EditPassword()
         {
-            return View(_user.GetUserById(new Guid(HttpContext.Session.GetString("UserID"))));
+            return View(GetCurrentUser());
         }
         public IActionResult ChangePassword(string oldPassword, string newPasswordFirst, string newPasswordSecond)
         {
-            User user = _user.GetUserById(new Guid(HttpContext.Session.GetString("UserID")));
+            User user = GetCurrentUser();
             if(oldPassword != user.Password)
             {
                 ViewBag.Message = "Неправильный пароль";
@@ -145,7 +149,7 @@ namespace ASPLab.Data.Controllers
         }
         public IActionResult ApplyChanges(User user)
         {
-            user.Email = _user.GetUserById(new Guid(HttpContext.Session.GetString("UserID"))).Email;
+            user.Email = GetCurrentUser().Email;
             if (ModelState.IsValid)
             {
                 if (_user.Users.Where(u => u.Login == user.Login).FirstOrDefault() != null)
