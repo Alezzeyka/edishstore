@@ -92,6 +92,7 @@ namespace ASPLab.Data.Controllers
                     userOrderDetails.Add(new UserOrderDetails
                     {
                         OrderId = item.ID,
+                        OrderNumber = item.OrderNumber,
                         orderDate = item.orderTime,
                         orderSum = GetOrderSum(item)
                     });
