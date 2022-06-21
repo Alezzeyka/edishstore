@@ -21,23 +21,27 @@ namespace ASPLab.Data.Controllers
         }
         public IActionResult AddOrder()
         {
-            _shopCart.listCartItems = _shopCart.GetShopCartItems();
-            if(_shopCart.listCartItems.Count <= 0)
+            if (HttpContext.Session.GetString("UserID") != null)
             {
-                ViewBag.Message = "Заказ не оформлен: корзина пуста";
-                return View("Error");
-            }           
-            Order order = new Order()
-            {
-                User = _user.Users
-                .Where(user => user.ID == new Guid(HttpContext.Session.GetString("UserID")))
-                .FirstOrDefault(),
-            };
-            _allOrders.CreateOrder(order);
-            ViewBag.Message = "Заказ успешно оформлен";
-            _shopCart.listCartItems.Clear();
-            HttpContext.Session.Remove("CartID");
-            return View("Complete");
+                _shopCart.listCartItems = _shopCart.GetShopCartItems();
+                if (_shopCart.listCartItems.Count <= 0)
+                {
+                    ViewBag.Message = "Заказ не оформлен: корзина пуста";
+                    return View("Error");
+                }
+                Order order = new Order()
+                {
+                    User = _user.Users
+                    .Where(user => user.ID == new Guid(HttpContext.Session.GetString("UserID")))
+                    .FirstOrDefault(),
+                };
+                _allOrders.CreateOrder(order);
+                ViewBag.Message = "Заказ успешно оформлен";
+                _shopCart.listCartItems.Clear();
+                HttpContext.Session.Remove("CartID");
+                return View("Complete");
+            }
+            return RedirectToAction("LoginPage","User");
         }
 
     }
