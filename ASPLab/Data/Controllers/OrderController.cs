@@ -22,6 +22,11 @@ namespace ASPLab.Data.Controllers
         public IActionResult AddOrder()
         {
             _shopCart.listCartItems = _shopCart.GetShopCartItems();
+            if(_shopCart.listCartItems.Count <= 0)
+            {
+                ViewBag.Message = "Заказ не оформлен: корзина пуста";
+                return View("Error");
+            }           
             Order order = new Order()
             {
                 User = _user.Users
