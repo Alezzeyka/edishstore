@@ -125,6 +125,10 @@ namespace ASPLab.Data.Controllers
         {
             return View(GetCurrentUser());
         }
+        public ViewResult DeleteUser()
+        {
+            return View(GetCurrentUser());
+        }
         public IActionResult ChangePassword(string oldPassword, string newPasswordFirst, string newPasswordSecond)
         {
             User user = GetCurrentUser();
@@ -166,6 +170,19 @@ namespace ASPLab.Data.Controllers
                 return View("Edit", user);
             }            
         }
-
+        public IActionResult DeleteUserAccount(string password)
+        {
+            User user = GetCurrentUser();
+            if (user.Password == password && user != null)
+            {
+                _user.DeleteUser(user);
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                ViewBag.Message = "Невозможно удалить аккаунт: неправильный пароль или пользователя не существует";
+                return View("Error");
+            }
+        }
     }
 }

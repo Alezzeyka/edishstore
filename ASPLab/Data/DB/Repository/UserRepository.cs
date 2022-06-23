@@ -22,6 +22,12 @@ namespace ASPLab.Data.DB.Repository
             _db.SaveChanges();
         }
 
+        public void DeleteUser(User user)
+        {
+            _db.User.Remove(user);
+            _db.SaveChanges();
+        }
+
         public User GetUserById(Guid userId)
         {
             return _db.User.Find(userId);
