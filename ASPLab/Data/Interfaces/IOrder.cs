@@ -9,5 +9,6 @@ namespace ASPLab.Data.Interfaces
         IEnumerable<Order> Orders { get; }
         void CreateOrder(Order order);
         List<Order> GetUserOrders(Guid userId);
+        Order GetOrderById(Guid orderId);
     }
 }
