@@ -11,16 +11,9 @@ path = './chromedriver'
 driver = webdriver.Chrome(options=options, executable_path=path)
 
 port = "44304"
-uri = "/User/Register"
+uri = "/User/LoginPage"
 url = "https://localhost:" + port + uri
 driver.get(url)
-
-REG_NAME_PATH = "//*[@id=\"Name\"]"
-REG_LOGIN_PATH = "//*[@id=\"Login\"]"
-REG_PASSWORD_PATH = "//*[@id=\"Password\"]"
-REG_EMAIL_PATH = "//*[@id=\"Email\"]"
-REG_PHONE_PATH = "//*[@id=\"PhoneNumber\"]"
-REG_BUTTON_PATH = "/html/body/div/div/form/input[1]"
 
 LOG_LOGIN_PATH = "//input[@name=\"login\"]"
 LOG_PASSWORD_PATH = "//input[@name=\"password\"]"
@@ -29,21 +22,10 @@ LOG_BUTTON_PATH = "//input[@value=\"Войти\"]"
 MAIN_LOGIN_PATH = "//*[@id=\"navbarCollapse\"]/p"
 
 name = "Smith"
-login = "smith" + str(random.random() * 200)
+login = "smith"
 password = "B12345"
-email = "usr@dmn.com"
-phone = "380931649374"
 
 try:
-
-    time.sleep(1)
-
-    driver.find_element_by_xpath(REG_NAME_PATH).send_keys(name)
-    driver.find_element_by_xpath(REG_LOGIN_PATH).send_keys(login)
-    driver.find_element_by_xpath(REG_PASSWORD_PATH).send_keys(password)
-    driver.find_element_by_xpath(REG_EMAIL_PATH).send_keys(email)
-    driver.find_element_by_xpath(REG_PHONE_PATH).send_keys(phone)
-    driver.find_element_by_xpath(REG_BUTTON_PATH).click()
 
     time.sleep(1)
 
@@ -52,6 +34,7 @@ try:
     driver.find_element_by_xpath(LOG_BUTTON_PATH).click()
 
     time.sleep(1)
+
     actual_name = driver.find_element_by_xpath(MAIN_LOGIN_PATH).text[14:]
 
     if name == actual_name:
