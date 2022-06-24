@@ -1,4 +1,5 @@
 ﻿using ASPLab.Data.Models;
+using System;
 
 namespace ASPLab.Data.ViewModels.OrderInfo
 {
@@ -11,7 +12,7 @@ namespace ASPLab.Data.ViewModels.OrderInfo
         {
             Dish = dish;
             Quantity = quantity;
-            Sum = CalculateSum();
+            Sum = Math.Round(CalculateSum());
         }
         private double CalculateSum() => Quantity * Dish.Price;
 
