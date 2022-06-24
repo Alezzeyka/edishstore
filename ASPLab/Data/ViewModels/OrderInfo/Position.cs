@@ -12,7 +12,7 @@ namespace ASPLab.Data.ViewModels.OrderInfo
         {
             Dish = dish;
             Quantity = quantity;
-            Sum = Math.Round(CalculateSum());
+            Sum = Math.Round(CalculateSum(),2);
         }
         private double CalculateSum() => Quantity * Dish.Price;
 
