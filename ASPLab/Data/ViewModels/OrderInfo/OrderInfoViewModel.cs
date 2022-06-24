@@ -8,13 +8,13 @@ namespace ASPLab.Data.ViewModels
 {
     public sealed class OrderInfoViewModel
     {
-        public Guid OrderId { get; }
+        public int OrderId { get; }
         public DateTime OrderDate { get; }
         public double TotalSum { get; }
         public List<Position> Positions { get; }
         public OrderInfoViewModel(Order order)
         {
-            OrderId = order.ID;
+            OrderId = order.OrderNumber;
             OrderDate = order.orderTime;
             SetPositions();
             TotalSum = CalculateTotalSum();
