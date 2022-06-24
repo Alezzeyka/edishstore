@@ -165,7 +165,6 @@ namespace ASPLab.Data.Controllers
             }
             else
             {
-                TempData["error"] = $"error";
                 return View("Edit", user);
             }            
         }

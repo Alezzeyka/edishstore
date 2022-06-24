@@ -45,7 +45,10 @@ namespace ASPLab.Data.DB.Repository
 
         public void UpdateUserInfo(User user)
         {
-            //_db.User.Update(user);
+            User newUser = _db.User.Find(user.ID);
+            newUser.Name = user.Name;
+            newUser.PhoneNumber = user.PhoneNumber;
+            newUser.Email = user.Email;
             _db.SaveChanges();
         }
     }
