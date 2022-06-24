@@ -165,7 +165,8 @@ namespace ASPLab.Data.Controllers
                     return View("Edit", user);
                 }
                 _user.UpdateUserInfo(user);
-                return RedirectToAction("PersonalInfo", new Guid(HttpContext.Session.GetString("UserID")));
+                TempData["message"] = $"Пользователь {user.Name} успешно изменен";
+                return RedirectToAction("PersonalInfo", new { userID = new Guid(HttpContext.Session.GetString("UserID")) });
             }
             else
             {

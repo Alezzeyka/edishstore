@@ -1,1 +1,35 @@
-﻿
+﻿@model ASPLab.Data.Models.User
+
+<div class="container border border-light shadow p-3 mb-5 bg-body rounded">
+    <form asp-controller="User" asp-action="ApplyChanges">
+      <div class="mb-3">
+        <label asp-for="Name"></label>
+         <div class="col-md-5">
+             <input asp-for="Name" class="form-control" />
+             <span asp-validation-for="Name" class="text-danger"></span>
+         </div>
+      </div>
+      <div class="mb-3">
+        <label asp-for="Login"></label>
+         <div class="col-md-5">
+             <input asp-for="Login" class="form-control" />
+             <span asp-validation-for="Login" class="text-danger"></span>
+         </div>
+      </div>
+      <div class="mb-3">
+        <label asp-for="Password"></label>
+         <div class="col-md-5">
+             <input asp-for="Password" class="form-control" />
+             <span asp-validation-for="Password" class="text-danger"></span>
+         </div>
+      </div>
+      <div class="mb-3">
+        <label asp-for="PhoneNumber"></label>
+         <div class="col-md-5">
+             <input asp-for="PhoneNumber" class="form-control" />
+             <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+         </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
