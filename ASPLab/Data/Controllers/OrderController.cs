@@ -4,13 +4,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
+using System.Net.Http;
 
 namespace ASPLab.Data.Controllers
 {
     public class OrderController:Controller
     {
         private readonly IOrder _allOrders;
-        private readonly ShopCart _shopCart;
+        private ShopCart _shopCart;
         private readonly IUser _user;
         public OrderController(IOrder allOrders, ShopCart shopCart, IUser user)
         {
@@ -20,16 +21,27 @@ namespace ASPLab.Data.Controllers
         }
         public IActionResult AddOrder()
         {
-            _shopCart.listCartItems = _shopCart.GetShopCartItems();
-            Order order = new Order()
+            if (HttpContext.Session.GetString("UserID") != null)
             {
-                User = _user.Users
-                .Where(user => user.ID == new Guid(HttpContext.Session.GetString("UserID")))
-                .FirstOrDefault(),
-            };
-            _allOrders.CreateOrder(order);
-            ViewBag.Message = "Заказ успешно отправлен на обработку.";
-            return View("Complete");
+                _shopCart.listCartItems = _shopCart.GetShopCartItems();
+                if (_shopCart.listCartItems.Count <= 0)
+                {
+                    ViewBag.Message = "Заказ не оформлен: корзина пуста";
+                    return View("Error");
+                }
+                Order order = new Order()
+                {
+                    User = _user.Users
+                    .Where(user => user.ID == new Guid(HttpContext.Session.GetString("UserID")))
+                    .FirstOrDefault(),
+                };
+                _allOrders.CreateOrder(order);
+                ViewBag.Message = "Заказ успешно оформлен";
+                _shopCart.listCartItems.Clear();
+                HttpContext.Session.Remove("CartID");
+                return View("Complete");
+            }
+            return RedirectToAction("LoginPage","User");
         }
 
     }

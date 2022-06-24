@@ -18,6 +18,10 @@ namespace ASPLab.Data.Controllers
             _user = user;
             _order = order;
         }
+        private User GetCurrentUser()
+        {
+            return _user.GetUserById(new Guid(HttpContext.Session.GetString("UserID")));
+        }
         public IActionResult Login(string login, string password)
         {
             User user = _user.Users
@@ -92,6 +96,7 @@ namespace ASPLab.Data.Controllers
                     userOrderDetails.Add(new UserOrderDetails
                     {
                         OrderId = item.ID,
+                        OrderNumber = item.OrderNumber,
                         orderDate = item.orderTime,
                         orderSum = GetOrderSum(item)
                     });
@@ -112,6 +117,55 @@ namespace ASPLab.Data.Controllers
             }
             return Math.Round(sum,2);
         }
-        
+        public ViewResult Edit()
+        {
+            return View(GetCurrentUser());
+        }
+        public ViewResult EditPassword()
+        {
+            return View(GetCurrentUser());
+        }
+        public IActionResult ChangePassword(string oldPassword, string newPasswordFirst, string newPasswordSecond)
+        {
+            User user = GetCurrentUser();
+            if(oldPassword != user.Password)
+            {
+                ViewBag.Message = "Неправильный пароль";
+                return View("Error");
+            }
+            if(newPasswordFirst != newPasswordSecond)
+            {
+                ViewBag.Message = "Пароли не совпадают";
+                return View("Error");
+            }
+            if(user.Password == newPasswordSecond)
+            {
+                ViewBag.Message = "Новый пароль совпадает со старым";
+                return View("Error");
+            }
+            user.Password = newPasswordSecond;
+            _user.UpdateUserInfo(user);
+            return RedirectToAction("PersonalInfo", new Guid(HttpContext.Session.GetString("UserID")));
+
+        }
+        public IActionResult ApplyChanges(User user)
+        {
+            user.Email = GetCurrentUser().Email;
+            if (ModelState.IsValid)
+            {
+                if (_user.Users.Where(u => u.Login == user.Login).FirstOrDefault() != null)
+                {
+                    user.Login = null;
+                    return View("Edit", user);
+                }
+                _user.UpdateUserInfo(user);
+                return RedirectToAction("PersonalInfo", new Guid(HttpContext.Session.GetString("UserID")));
+            }
+            else
+            {
+                return View("Edit", user);
+            }            
+        }
+
     }
 }
