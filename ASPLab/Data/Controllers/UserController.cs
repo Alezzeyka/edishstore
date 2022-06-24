@@ -154,14 +154,9 @@ namespace ASPLab.Data.Controllers
         }
         public IActionResult ApplyChanges(User user)
         {
-            user.Email = GetCurrentUser().Email;
+            user.Login = GetCurrentUser().Login;
             if (ModelState.IsValid)
             {
-                if (_user.Users.Where(u => u.Login == user.Login).FirstOrDefault() != null)
-                {
-                    user.Login = null;
-                    return View("Edit", user);
-                }
                 _user.UpdateUserInfo(user);
                 return RedirectToAction("PersonalInfo", new Guid(HttpContext.Session.GetString("UserID")));
             }
