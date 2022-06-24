@@ -134,22 +134,24 @@ namespace ASPLab.Data.Controllers
             User user = GetCurrentUser();
             if(oldPassword != user.Password)
             {
-                ViewBag.Message = "Неправильный пароль";
-                return View("Error");
+                TempData["error"] = "Неправильный пароль";
+
+                return RedirectToAction("EditPassword");
             }
             if(newPasswordFirst != newPasswordSecond)
             {
-                ViewBag.Message = "Пароли не совпадают";
-                return View("Error");
+                TempData["error"] = "Пароли не совпадают";
+                return RedirectToAction("EditPassword");
             }
-            if(user.Password == newPasswordSecond)
+            if (user.Password == newPasswordSecond)
             {
-                ViewBag.Message = "Новый пароль совпадает со старым";
-                return View("Error");
+                TempData["error"] = "Новый пароль совпадает со старым";
+                return RedirectToAction("EditPassword");
             }
+            TempData["message"] = "Пароль изменен успешно";
             user.Password = newPasswordSecond;
             _user.UpdateUserInfo(user);
-            return RedirectToAction("PersonalInfo", new Guid(HttpContext.Session.GetString("UserID")));
+            return RedirectToAction("PersonalInfo", new { userID = new Guid(HttpContext.Session.GetString("UserID")) });
 
         }
         public IActionResult ApplyChanges(User user)
