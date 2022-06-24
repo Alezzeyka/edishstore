@@ -31,7 +31,7 @@ namespace ASPLab.Data.DB
                         {
                             ID = Guid.NewGuid(),
                             Name = $"Тарелка {idx}",
-                            Price = (float)random.NextDouble() * 10,
+                            Price = (float)Math.Round((float)random.NextDouble() * 10,2),
                             Color = "Белый",
                             Img = @"/img/Plate-500x500.jpg",
                             Material = "Керамика",
@@ -46,7 +46,7 @@ namespace ASPLab.Data.DB
                         {
                             ID = Guid.NewGuid(),
                             Name = $"Стакан {idx}",
-                            Price = (float)random.NextDouble() * 10,
+                            Price = (float)Math.Round((float)random.NextDouble() * 10, 2),
                             Color = "Прозрачный",
                             Img = @"/img/Glass-500x500.jpg",
                             Material = "Стекло",
@@ -62,7 +62,7 @@ namespace ASPLab.Data.DB
                         {
                             ID = Guid.NewGuid(),
                             Name = $"Чашка для чая {idx}",
-                            Price = (float)random.NextDouble() * 10,
+                            Price = (float)Math.Round((float)random.NextDouble() * 10, 2),
                             Color = "Красный",
                             Img = @"/img/TeaCup-500x500.jpg",
                             Material = "Керамика",
