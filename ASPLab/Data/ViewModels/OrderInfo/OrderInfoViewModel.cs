@@ -11,7 +11,7 @@ namespace ASPLab.Data.ViewModels
         public int OrderId { get; }
         public DateTime OrderDate { get; }
         public double TotalSum { get; }
-        public List<Position> Positions { get; }
+        public List<Position> Positions { get; } = new List<Position>();
         public OrderInfoViewModel(Order order)
         {
             OrderId = order.OrderNumber;
