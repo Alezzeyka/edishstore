@@ -1,6 +1,7 @@
 ﻿using ASPLab.Data.Interfaces;
 using ASPLab.Data.Models;
 using ASPLab.Data.ViewModels;
+using ASPLab.Data.ViewModels.OrderInfo;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;

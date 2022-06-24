@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ASPLab.Data.ViewModels
+namespace ASPLab.Data.ViewModels.OrderInfo
 {
     public sealed class OrderInfoViewModel
     {

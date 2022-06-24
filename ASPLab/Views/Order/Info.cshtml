@@ -1,0 +1,56 @@
+﻿@using ASPLab.Data.ViewModels.OrderInfo
+@using Microsoft.AspNetCore.Http
+@model ASPLab.Data.ViewModels.OrderInfo.OrderInfoViewModel
+<body style="overflow:hidden">
+@{
+        <div class="container border border-light shadow p-3 mb-5 bg-body rounded">
+            <div class="row bg-light bg-gradient">
+                <div class="col-sm-2"><h3>Заказ #@Model.OrderId</h3></div>
+                <div class="col-sm-8"><h3>Дата: @Model.OrderDate</h3></div>
+                <div class="col d-grid gap-1">@Html.ActionLink("Назад", "PersonalInfo", "User", new { userID=Context.Session.GetString("UserID")}, new { @class="btn btn-outline-primary" })</div>
+            </div>
+            <div class="row bg-light bg-gradient">
+                <div class="col"></div>
+                <div class="col"><h3>Название</h3></div>
+                <div class="col"><h3>Цена</h3></div>
+                <div class="col"><h3>Кол-во</h3></div>
+                <div class="col"><h3>Сумма</h3></div>
+            </div>
+            <div style="height: 75vh; overflow-x: hidden; overflow-y: auto">
+                @{
+                    int i = 1;
+                    foreach (Position item in Model.Positions)
+                    {
+                        @if (i % 2 == 0)
+                        {
+                            <div class="row bg-light align-items-start">
+                                <div class="col align-content-center"><img class="img-thumbnail" src="@item.Dish.Img"/></div>
+                                <div class="col align-content-center"><a asp-controller="Dish" asp-action="DishInfo" asp-route-dishID="@item.Dish.ID">@item.Dish.Name</a></div>
+                                <div class="col align-content-center">@item.Dish.Price</div>
+                                <div class="col align-content-center">@item.Quantity</div>
+                                <div class="col align-content-center"><h4>@item.Sum</h4></div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row align-items-start">
+                                <div class="col align-content-center"><img class="img-thumbnail" src="@item.Dish.Img"/></div>
+                                <div class="col align-content-center"><a asp-controller="Dish" asp-action="DishInfo" asp-route-dishID="@item.Dish.ID">@item.Dish.Name</a></div>
+                                <div class="col align-content-center">@item.Dish.Price</div>
+                                <div class="col align-content-center">@item.Quantity</div>
+                                <div class="col align-content-center"><h4>@item.Sum</h4></div>
+                            </div>
+
+                        }
+                        i++;
+                    }
+                }
+            </div>
+            <div class="row bg-light bg-gradient align-items-start">
+                <div class="col"></div>
+                <div class="col"><h3>Сумма: @Model.TotalSum</h3></div>
+                <div class="col"></div>
+            </div>
+        </div>
+}
+</body>
