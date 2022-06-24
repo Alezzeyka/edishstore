@@ -17,7 +17,7 @@ namespace ASPLab.Data.ViewModels.OrderInfo
             OrderId = order.OrderNumber;
             OrderDate = order.orderTime;
             SetPositions();
-            TotalSum = CalculateTotalSum();
+            TotalSum = Math.Round(CalculateTotalSum());
 
             void SetPositions()
             {
