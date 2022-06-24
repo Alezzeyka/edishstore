@@ -57,7 +57,7 @@ namespace ASPLab
             using(var scope = app.ApplicationServices.CreateScope())
             {
                 AppDBContent appDBContent = scope.ServiceProvider.GetService<AppDBContent>();
-                appDBContent.Database.EnsureCreated();
+                appDBContent.Database.Migrate();
                 DBObjectsInit.DefaultDBObjectsInitialization(appDBContent);
             }
             
