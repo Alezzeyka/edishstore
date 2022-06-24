@@ -178,12 +178,15 @@ namespace ASPLab.Data.Controllers
             if (user.Password == password && user != null)
             {
                 _user.DeleteUser(user);
+                //HttpContext.Session.SetString("UserID", String.Empty);
+                HttpContext.Session.Clear();
+                TempData["message"] = $"Пользователь {user.Name} успешно удален";
                 return RedirectToAction("Index", "Home");
             }
             else
             {
-                ViewBag.Message = "Невозможно удалить аккаунт: неправильный пароль или пользователя не существует";
-                return View("Error");
+                TempData["error"] = "Невозможно удалить аккаунт: неправильный пароль или пользователя не существует";
+                return RedirectToAction("DeleteUser");
             }
         }
     }
