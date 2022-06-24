@@ -45,7 +45,7 @@ namespace ASPLab.Data.DB.Repository
 
         public void UpdateUserInfo(User user)
         {
-            _db.User.Update(user);
+            //_db.User.Update(user);
             _db.SaveChanges();
         }
     }

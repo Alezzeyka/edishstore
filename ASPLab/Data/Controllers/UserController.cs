@@ -156,15 +156,16 @@ namespace ASPLab.Data.Controllers
         }
         public IActionResult ApplyChanges(User user)
         {
-            user.Login = GetCurrentUser().Login;
             if (ModelState.IsValid)
             {
+                user.ID = GetCurrentUser().ID;
                 _user.UpdateUserInfo(user);
                 TempData["message"] = $"Пользователь {user.Name} успешно изменен";
                 return RedirectToAction("PersonalInfo", new { userID = new Guid(HttpContext.Session.GetString("UserID")) });
             }
             else
             {
+                TempData["error"] = $"error";
                 return View("Edit", user);
             }            
         }
