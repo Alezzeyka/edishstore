@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ASPLab.Data.Models
@@ -40,5 +41,6 @@ namespace ASPLab.Data.Models
         [StringLength(12)]
         [Required(ErrorMessage = "Укажите номер телефона")]
         public string PhoneNumber { get; set; }
+        public List<Order> Orders { get; set; }
     }
 }
