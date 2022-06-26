@@ -22,6 +22,14 @@ namespace ASPLab.Data.DB.Context
             modelBuilder.Entity<Order>()
                 .Property(order => order.OrderNumber)
                 .HasDefaultValueSql("NEXT VALUE FOR OrderNumbers");
+            modelBuilder.Entity<User>()
+                .HasMany(u=>u.Orders)
+                .WithOne(o => o.User)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Order>()
+                .HasMany(o => o.OrgerDetails)
+                .WithOne(od => od.Order)
+                .OnDelete(DeleteBehavior.Cascade);
         }
 
     }
