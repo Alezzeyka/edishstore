@@ -30,7 +30,7 @@ namespace ASPLab.Data.Controllers
             if(user == null)
             {
                 TempData["error"] = "Неправильный логин или пароль";
-                return View();
+                return View("LoginPage");
             }
             HttpContext.Session.SetString("UserID", user.ID.ToString());
             HttpContext.Session.SetString("UserName", user.Name);
