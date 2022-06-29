@@ -29,8 +29,8 @@ namespace ASPLab.Data.Controllers
                 .FirstOrDefault();
             if(user == null)
             {
-                ViewBag.Message = "Неправильный логин или пароль";
-                return View("Error");
+                TempData["error"] = "Неправильный логин или пароль";
+                return View();
             }
             HttpContext.Session.SetString("UserID", user.ID.ToString());
             HttpContext.Session.SetString("UserName", user.Name);
@@ -78,8 +78,8 @@ namespace ASPLab.Data.Controllers
             model.listUserOrderDetails = GetUserOrderDetails(model.user.ID);  
             if (model.user == null)
             {
-                ViewBag.Message = "Неправильный логин или пароль";
-                return View("Error");
+                TempData["error"] = "Неправильный логин или пароль";
+                return View("Index","Home");
             }
             HttpContext.Session.SetString("UserID", model.user.ID.ToString());
             HttpContext.Session.SetString("UserName", model.user.Name);
@@ -135,7 +135,6 @@ namespace ASPLab.Data.Controllers
             if(oldPassword != user.Password)
             {
                 TempData["error"] = "Неправильный пароль";
-
                 return RedirectToAction("EditPassword");
             }
             if(newPasswordFirst != newPasswordSecond)

@@ -28,8 +28,8 @@ namespace ASPLab.Data.Controllers
                 _shopCart.listCartItems = _shopCart.GetShopCartItems();
                 if (_shopCart.listCartItems.Count <= 0)
                 {
-                    ViewBag.Message = "Заказ не оформлен: корзина пуста";
-                    return View("Error");
+                    TempData["error"] = "Заказ не оформлен: корзина пуста";
+                    return RedirectToAction("Index", "ShopCart");
                 }
                 Order order = new Order()
                 {
@@ -38,10 +38,10 @@ namespace ASPLab.Data.Controllers
                     .FirstOrDefault(),
                 };
                 _allOrders.CreateOrder(order);
-                ViewBag.Message = "Заказ успешно оформлен";
                 _shopCart.listCartItems.Clear();
                 HttpContext.Session.Remove("CartID");
-                return View("Complete");
+                TempData["message"] = "Заказ успешно оформлен";
+                return RedirectToAction("Index","Home");
             }
             return RedirectToAction("LoginPage","User");
         }

@@ -27,7 +27,8 @@ namespace ASPLab.Data.Controllers
                 .FirstOrDefault();                
             if(model.currCategory == null)
             {
-                return View("NotFoundCategory") ;
+                TempData["error"] = "Категория не найдена";
+                return View(model) ;
             }            
             ViewBag.Title = model.currCategory.Name;
             model.AllDishes = _allDish.Dishes.Where(dish => dish.Category == model.currCategory);
