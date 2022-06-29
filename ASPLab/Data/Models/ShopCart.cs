@@ -35,6 +35,22 @@ namespace ASPLab.Data.Models
             });
             _db.SaveChanges();
         }
+        public void RemoveCartItem(Guid cartItemId)
+        {
+            if(listCartItems.Count > 0)
+            {
+                ShopCartItem shopCartItem = _db.ShopCartItems.FirstOrDefault(x => x.ID == cartItemId && x.ShopCartID == this.ShopCartID);
+                _db.ShopCartItems.Remove(shopCartItem);
+                listCartItems.Remove(shopCartItem);
+                _db.SaveChanges();
+            }    
+        }
+        public void RemoveAllShopCartItems()
+        {
+            _db.ShopCartItems.RemoveRange(GetShopCartItems());
+            listCartItems.Clear();
+            _db.SaveChanges();
+        }
         public List<ShopCartItem> GetShopCartItems()
         {
             return _db.ShopCartItems

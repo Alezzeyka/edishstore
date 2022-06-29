@@ -37,5 +37,25 @@ namespace ASPLab.Data.Controllers
             }
             return RedirectToAction("Index");
         }
+        //For quantity increment on ShopCart page, return value may be changed
+        public RedirectToActionResult AddOneItemToCart(Guid dishId)
+        {
+            Dish dish = _allDish.Dishes.FirstOrDefault(item => item.ID == dishId);
+            if (dish != null)
+            {
+                _shopCart.AddCartItem(dish);
+            }
+            return RedirectToAction("Index");
+        }
+        public RedirectToActionResult RemoveOneItemFromCart(Guid cartItemId)
+        {
+            _shopCart.RemoveCartItem(cartItemId);
+            return RedirectToAction("Index");
+        }
+        public RedirectToActionResult RemoveAllItemsFromCart()
+        {
+            _shopCart.RemoveAllShopCartItems();
+            return RedirectToAction("Index");
+        }
     }
 }
