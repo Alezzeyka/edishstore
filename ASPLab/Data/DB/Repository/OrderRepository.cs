@@ -38,6 +38,18 @@ namespace ASPLab.Data.DB.Repository
             _db.SaveChanges();
         }
 
+        public Order GetOrderById(Guid orderId)
+        {
+            return _db.Order
+                .Where(o => o.ID == orderId)
+                .Include(o => o.User)
+                .Include(o => o.OrgerDetails)
+                .ThenInclude(od => od.Dish)
+                .ThenInclude(d => d.Category)
+                .AsSplitQuery()
+                .FirstOrDefault();
+        }
+
         public List<Order> GetUserOrders(Guid userId)
         {
             return _db.Order

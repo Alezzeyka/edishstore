@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewData["Title"] = "DeleteUser";
+}
+<div class="container border border-light shadow p-3 mb-5 bg-body rounded">
+    <form asp-controller="User" asp-action="DeleteUserAccount">
+      <div class="mb-3">
+        <label for="currentPassword" class="form-label">Введите текущий пароль:</label>
+        <input 
+            type="password" 
+            class="form-control" 
+            data-val="true" 
+            data-val-required="Введите текущий пароль" 
+            maxlength="16" 
+            id="currentPassword"
+            name="password"
+            required>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+

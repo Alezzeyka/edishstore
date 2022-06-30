@@ -53,6 +53,14 @@
       </div>
     </div>
   </nav>
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-success">@TempData["message"]</div>
+}
+@if (TempData["error"] != null)
+{
+    <div class="alert alert-danger">@TempData["error"]</div>
+}
 </header>
 
     <div style="width:98%;margin-left:1%;margin-right:1%">

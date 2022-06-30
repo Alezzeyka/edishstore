@@ -125,47 +125,65 @@ namespace ASPLab.Data.Controllers
         {
             return View(GetCurrentUser());
         }
+        public ViewResult DeleteUser()
+        {
+            return View(GetCurrentUser());
+        }
         public IActionResult ChangePassword(string oldPassword, string newPasswordFirst, string newPasswordSecond)
         {
             User user = GetCurrentUser();
             if(oldPassword != user.Password)
             {
-                ViewBag.Message = "Неправильный пароль";
-                return View("Error");
+                TempData["error"] = "Неправильный пароль";
+
+                return RedirectToAction("EditPassword");
             }
             if(newPasswordFirst != newPasswordSecond)
             {
-                ViewBag.Message = "Пароли не совпадают";
-                return View("Error");
+                TempData["error"] = "Пароли не совпадают";
+                return RedirectToAction("EditPassword");
             }
-            if(user.Password == newPasswordSecond)
+            if (user.Password == newPasswordSecond)
             {
-                ViewBag.Message = "Новый пароль совпадает со старым";
-                return View("Error");
+                TempData["error"] = "Новый пароль совпадает со старым";
+                return RedirectToAction("EditPassword");
             }
+            TempData["message"] = "Пароль изменен успешно";
             user.Password = newPasswordSecond;
             _user.UpdateUserInfo(user);
-            return RedirectToAction("PersonalInfo", new Guid(HttpContext.Session.GetString("UserID")));
+            return RedirectToAction("PersonalInfo", new { userID = new Guid(HttpContext.Session.GetString("UserID")) });
 
         }
         public IActionResult ApplyChanges(User user)
         {
-            user.Email = GetCurrentUser().Email;
             if (ModelState.IsValid)
             {
-                if (_user.Users.Where(u => u.Login == user.Login).FirstOrDefault() != null)
-                {
-                    user.Login = null;
-                    return View("Edit", user);
-                }
+                user.ID = GetCurrentUser().ID;
                 _user.UpdateUserInfo(user);
-                return RedirectToAction("PersonalInfo", new Guid(HttpContext.Session.GetString("UserID")));
+                TempData["message"] = $"Пользователь {user.Name} успешно изменен";
+                return RedirectToAction("PersonalInfo", new { userID = new Guid(HttpContext.Session.GetString("UserID")) });
             }
             else
             {
                 return View("Edit", user);
             }            
         }
-
+        public IActionResult DeleteUserAccount(string password)
+        {
+            User user = GetCurrentUser();
+            if (user.Password == password && user != null)
+            {
+                _user.DeleteUser(user);
+                //HttpContext.Session.SetString("UserID", String.Empty);
+                HttpContext.Session.Clear();
+                TempData["message"] = $"Пользователь {user.Name} успешно удален";
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                TempData["error"] = "Невозможно удалить аккаунт: неправильный пароль или пользователя не существует";
+                return RedirectToAction("DeleteUser");
+            }
+        }
     }
 }

@@ -22,6 +22,12 @@ namespace ASPLab.Data.DB.Repository
             _db.SaveChanges();
         }
 
+        public void DeleteUser(User user)
+        {
+            _db.User.Remove(user);
+            _db.SaveChanges();
+        }
+
         public User GetUserById(Guid userId)
         {
             return _db.User.Find(userId);
@@ -39,7 +45,10 @@ namespace ASPLab.Data.DB.Repository
 
         public void UpdateUserInfo(User user)
         {
-            _db.User.Update(user);
+            User newUser = _db.User.Find(user.ID);
+            newUser.Name = user.Name;
+            newUser.PhoneNumber = user.PhoneNumber;
+            newUser.Email = user.Email;
             _db.SaveChanges();
         }
     }
