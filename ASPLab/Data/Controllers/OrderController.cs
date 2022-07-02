@@ -2,6 +2,7 @@
 using ASPLab.Data.Models;
 using ASPLab.Data.ViewModels;
 using ASPLab.Data.ViewModels.OrderInfo;
+using ASPLab.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -45,9 +46,15 @@ namespace ASPLab.Data.Controllers
             }
             return RedirectToAction("LoginPage","User");
         }
-        public ViewResult Info(Guid orderId)
+        public IActionResult Info(Guid orderId)
         {
-            return View(new OrderInfoViewModel(_allOrders.GetOrderById(orderId)));
+            Order order = _allOrders.GetOrderById(orderId);
+            if (!UserSessionValidation.IsUserSessionValid(HttpContext, _user, order.User.ID))
+            {
+                TempData["error"] = "Доступ запрещён";
+                return RedirectToAction("LoginPage", "User");
+            }
+            return View(new OrderInfoViewModel(order));
         }
 
     }

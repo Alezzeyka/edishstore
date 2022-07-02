@@ -1,6 +1,7 @@
 ﻿using ASPLab.Data.Interfaces;
 using ASPLab.Data.Models;
 using ASPLab.Data.ViewModels;
+using ASPLab.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -17,10 +18,6 @@ namespace ASPLab.Data.Controllers
         {
             _user = user;
             _order = order;
-        }
-        private User GetCurrentUser()
-        {
-            return _user.GetUserById(new Guid(HttpContext.Session.GetString("UserID")));
         }
         public IActionResult Login(string login, string password)
         {
@@ -70,6 +67,12 @@ namespace ASPLab.Data.Controllers
         }
         public ViewResult PersonalInfo(Guid userID)
         {
+            if (!UserSessionValidation.IsUserSessionValid(HttpContext, _user, userID))
+            {
+                TempData["error"] = "Доступ запрещён";
+                return View("LoginPage");
+            }
+
             UserOrderViewModel model = new UserOrderViewModel();
 
             model.user = _user.Users
@@ -78,7 +81,7 @@ namespace ASPLab.Data.Controllers
             model.listUserOrderDetails = GetUserOrderDetails(model.user.ID);  
             if (model.user == null)
             {
-                TempData["error"] = "Неправильный логин или пароль";
+                TempData["error"] = "Ошибка: пользователь не найден";
                 return View("Index","Home");
             }
             HttpContext.Session.SetString("UserID", model.user.ID.ToString());
@@ -119,19 +122,19 @@ namespace ASPLab.Data.Controllers
         }
         public ViewResult Edit()
         {
-            return View(GetCurrentUser());
+            return View(UserSessionValidation.GetCurrentUser(HttpContext, _user));
         }
         public ViewResult EditPassword()
         {
-            return View(GetCurrentUser());
+            return View(UserSessionValidation.GetCurrentUser(HttpContext, _user));
         }
         public ViewResult DeleteUser()
         {
-            return View(GetCurrentUser());
+            return View(UserSessionValidation.GetCurrentUser(HttpContext, _user));
         }
         public IActionResult ChangePassword(string oldPassword, string newPasswordFirst, string newPasswordSecond)
         {
-            User user = GetCurrentUser();
+            User user = UserSessionValidation.GetCurrentUser(HttpContext, _user);
             if(oldPassword != user.Password)
             {
                 TempData["error"] = "Неправильный пароль";
@@ -157,7 +160,7 @@ namespace ASPLab.Data.Controllers
         {
             if (ModelState.IsValid)
             {
-                user.ID = GetCurrentUser().ID;
+                user.ID = UserSessionValidation.GetCurrentUser(HttpContext, _user).ID;
                 _user.UpdateUserInfo(user);
                 TempData["message"] = $"Пользователь {user.Name} успешно изменен";
                 return RedirectToAction("PersonalInfo", new { userID = new Guid(HttpContext.Session.GetString("UserID")) });
@@ -169,7 +172,7 @@ namespace ASPLab.Data.Controllers
         }
         public IActionResult DeleteUserAccount(string password)
         {
-            User user = GetCurrentUser();
+            User user = UserSessionValidation.GetCurrentUser(HttpContext, _user);
             if (user.Password == password && user != null)
             {
                 _user.DeleteUser(user);
