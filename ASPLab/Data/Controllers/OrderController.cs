@@ -24,7 +24,7 @@ namespace ASPLab.Data.Controllers
         }
         public IActionResult AddOrder()
         {
-            if (HttpContext.Session.GetString("UserID") != null)
+            if (UserSessionValidation.IsUserSessionValid(HttpContext,_user))
             {
                 _shopCart.listCartItems = _shopCart.GetShopCartItems();
                 if (_shopCart.listCartItems.Count <= 0)
@@ -34,9 +34,7 @@ namespace ASPLab.Data.Controllers
                 }
                 Order order = new Order()
                 {
-                    User = _user.Users
-                    .Where(user => user.ID == new Guid(HttpContext.Session.GetString("UserID")))
-                    .FirstOrDefault(),
+                    User = UserSessionValidation.GetCurrentUser(HttpContext,_user)
                 };
                 _allOrders.CreateOrder(order);
                 _shopCart.listCartItems.Clear();
@@ -44,6 +42,7 @@ namespace ASPLab.Data.Controllers
                 TempData["message"] = "Заказ успешно оформлен";
                 return RedirectToAction("Index","Home");
             }
+            TempData["error"] = "Для оформления заказа необходима авторизация";
             return RedirectToAction("LoginPage","User");
         }
         public IActionResult Info(Guid orderId)

@@ -165,7 +165,6 @@ namespace ASPLab.Data.Controllers
             if (user.Password == password && user != null)
             {
                 _user.DeleteUser(user);
-                //HttpContext.Session.SetString("UserID", String.Empty);
                 HttpContext.Session.Clear();
                 TempData["message"] = $"Пользователь {user.Name} успешно удален";
                 return RedirectToAction("Index", "Home");

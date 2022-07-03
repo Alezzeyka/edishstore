@@ -48,9 +48,7 @@ namespace ASPLab.Data.Controllers
         
         public ViewResult DishInfo(Guid dishID)
         {
-            Dish model = new Dish();
-            model = _allDish.GetDish(dishID);
-            return View(model);
+            return View(_allDish.GetDish(dishID));
         }
     }
 }
