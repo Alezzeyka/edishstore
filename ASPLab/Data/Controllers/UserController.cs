@@ -65,27 +65,16 @@ namespace ASPLab.Data.Controllers
             HttpContext.Session.Remove("UserName");
             return RedirectToAction("Index", "Home");
         }
-        public ViewResult PersonalInfo(Guid userID)
+        public ViewResult PersonalInfo()
         {
-            if (!UserSessionValidation.IsUserSessionValid(HttpContext, _user, userID))
+            if (!UserSessionValidation.IsUserSessionValid(HttpContext, _user))
             {
                 TempData["error"] = "Доступ запрещён";
                 return View("LoginPage");
             }
-
             UserOrderViewModel model = new UserOrderViewModel();
-
-            model.user = _user.Users
-                .Where(user => user.ID==userID)
-                .FirstOrDefault();
+            model.user = UserSessionValidation.GetCurrentUser(HttpContext,_user);
             model.listUserOrderDetails = GetUserOrderDetails(model.user.ID);  
-            if (model.user == null)
-            {
-                TempData["error"] = "Ошибка: пользователь не найден";
-                return View("Index","Home");
-            }
-            HttpContext.Session.SetString("UserID", model.user.ID.ToString());
-            HttpContext.Session.SetString("UserName", model.user.Name);
             return View(model);
         }
         private List<UserOrderDetails> GetUserOrderDetails(Guid userId)
