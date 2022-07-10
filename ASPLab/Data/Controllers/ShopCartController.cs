@@ -49,11 +49,13 @@ namespace ASPLab.Data.Controllers
         }
         public RedirectToActionResult RemoveOneItemFromCart(Guid cartItemId)
         {
+            _shopCart.listCartItems = _shopCart.GetShopCartItems();
             _shopCart.RemoveCartItem(cartItemId);
             return RedirectToAction("Index");
         }
         public RedirectToActionResult RemoveAllItemsFromCart()
         {
+            _shopCart.listCartItems = _shopCart.GetShopCartItems();
             _shopCart.RemoveAllShopCartItems();
             return RedirectToAction("Index");
         }
