@@ -22,7 +22,7 @@ namespace ASPLab.Data.Controllers
         {
             List<ShopCartItem> cartItems = _shopCart.GetShopCartItems();
             _shopCart.listCartItems = cartItems;
-            return View(new ShopCartViewModel { ShopCart = _shopCart });
+            return View(new ShopCartViewModel (_shopCart));
         }
         public RedirectToActionResult AddToCart(Guid dishID)
         {
