@@ -42,7 +42,7 @@ namespace ASPLab.Data.ViewModels
                 }
                 else
                 {
-                    dishQuantity.Add(item.Dish, new CartQuantity_Id(item.ShopCartID,1) );
+                    dishQuantity.Add(item.Dish, new CartQuantity_Id(item.ID,1) );
                 }
             }
             foreach (KeyValuePair<Dish, CartQuantity_Id> item in dishQuantity)
