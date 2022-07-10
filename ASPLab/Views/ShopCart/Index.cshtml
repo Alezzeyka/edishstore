@@ -6,17 +6,29 @@
         <title>List</title>
 </head>
 <body>
-    <h3>Корзина</h3>
+    <h1>Корзина</h1>
     <div class="container">
         @{
             float sum = 0;
+            int i = 0;
             foreach (var el in Model.ShopCart.listCartItems)
             {
-            <div class="alert-warning mt-3">
+                if (i%2==0)
+                {
+                <div class="bg-light mt-3">
                 <b>Посуда:</b> @el.Dish.Name<br/>
                 <b>Цена:</b> @el.Dish.Price.ToString("c")
                 </div>
+                }
+                else
+                {
+                <div class="mt-3">
+                <b>Посуда:</b> @el.Dish.Name<br/>
+                <b>Цена:</b> @el.Dish.Price.ToString("c")
+                </div>
+                }
                 sum += el.Dish.Price;
+                i++;
             }
             <b>Сумма:</b>@sum.ToString("c");
         }

@@ -5,13 +5,15 @@
         <title>List</title>
 </head>
 <body>
-    <div class="row mt-5 mb-2">
-        <h1>@Model.currCategory.Name</h1>
-        @{
-        foreach (Dish dish in Model.AllDishes)
-        {
-            @Html.Partial("AllDish", dish)
-        } }
+    <h1>@Model.currCategory.Name</h1>
+    <div class="container">
+        <div class="row row-cols-4">
+            @{
+            foreach (Dish dish in Model.AllDishes)
+            {
+                @Html.Partial("AllDish", dish)
+            } }
+        </div>
     </div>
 </body>
 </html>
