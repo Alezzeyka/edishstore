@@ -3,11 +3,16 @@ using System;
 
 namespace ASPLab.Data.ViewModels.OrderInfo
 {
-    public sealed class Position
+    public class Position
     {
         public Dish Dish { get; }
         public int Quantity { get; }
         public double Sum { get; }
+
+        public Position()
+        {
+                
+        }
         public Position(Dish dish, int quantity)
         {
             Dish = dish;
