@@ -64,7 +64,9 @@
                     }
                 </div>
                 <div class="row bg-light bg-gradient justify-content-center">
-                    <div class="col"></div>
+                    <div class="col">
+                        <div class="d-grid gap-1">@Html.ActionLink("Очистить корзину", "RemoveAllItemsFromCart", "ShopCart", null, new { @class="btn btn-outline-danger" })</div>
+                    </div>
                     <div class="col"><h3>Сумма: @Model.TotalSum</h3></div>
                     <div class="col"></div>
                 </div>
