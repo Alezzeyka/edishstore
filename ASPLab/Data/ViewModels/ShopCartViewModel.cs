@@ -38,7 +38,7 @@ namespace ASPLab.Data.ViewModels
                 if (dishQuantity.ContainsKey(item.Dish))
                 {
                     dishQuantity[item.Dish].Quantity++;
-                    dishQuantity[item.Dish].ShopCartItemIdList.Add(item.ShopCartID);
+                    dishQuantity[item.Dish].ShopCartItemIdList.Add(item.ID);
                 }
                 else
                 {
