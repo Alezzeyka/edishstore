@@ -2,6 +2,7 @@
 using ASPLab.Data.Models;
 using ASPLab.Data.ViewModels;
 using ASPLab.Data.ViewModels.OrderInfo;
+using ASPLab.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -23,31 +24,36 @@ namespace ASPLab.Data.Controllers
         }
         public IActionResult AddOrder()
         {
-            if (HttpContext.Session.GetString("UserID") != null)
+            if (UserSessionValidation.IsUserSessionValid(HttpContext,_user))
             {
                 _shopCart.listCartItems = _shopCart.GetShopCartItems();
                 if (_shopCart.listCartItems.Count <= 0)
                 {
-                    ViewBag.Message = "Заказ не оформлен: корзина пуста";
-                    return View("Error");
+                    TempData["error"] = "Заказ не оформлен: корзина пуста";
+                    return RedirectToAction("Index", "ShopCart");
                 }
                 Order order = new Order()
                 {
-                    User = _user.Users
-                    .Where(user => user.ID == new Guid(HttpContext.Session.GetString("UserID")))
-                    .FirstOrDefault(),
+                    User = UserSessionValidation.GetCurrentUser(HttpContext,_user)
                 };
                 _allOrders.CreateOrder(order);
-                ViewBag.Message = "Заказ успешно оформлен";
                 _shopCart.listCartItems.Clear();
                 HttpContext.Session.Remove("CartID");
-                return View("Complete");
+                TempData["message"] = "Заказ успешно оформлен";
+                return RedirectToAction("Index","Home");
             }
+            TempData["error"] = "Для оформления заказа необходима авторизация";
             return RedirectToAction("LoginPage","User");
         }
-        public ViewResult Info(Guid orderId)
+        public IActionResult Info(Guid orderId)
         {
-            return View(new OrderInfoViewModel(_allOrders.GetOrderById(orderId)));
+            Order order = _allOrders.GetOrderById(orderId);
+            if (!UserSessionValidation.IsUserSessionValid(HttpContext, _user, order.User.ID))
+            {
+                TempData["error"] = "Доступ запрещён";
+                return RedirectToAction("LoginPage", "User");
+            }
+            return View(new OrderInfoViewModel(order));
         }
 
     }
