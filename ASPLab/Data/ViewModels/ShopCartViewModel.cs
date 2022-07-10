@@ -12,9 +12,9 @@ namespace ASPLab.Data.ViewModels
 
         public ShopCartViewModel(ShopCart shopCart)
         {
+            ShopCart = shopCart;
             SetPositions();
             TotalSum = SetSum();
-            ShopCart = shopCart;
         }
         private double SetSum()
         {
