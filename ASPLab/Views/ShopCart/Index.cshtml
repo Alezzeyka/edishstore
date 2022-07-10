@@ -1,4 +1,5 @@
 ﻿@using ASPLab.Data.ViewModels.ShopCartInfo
+@using System.Linq;
 @model ShopCartViewModel
 <body style="overflow:hidden">
         <div class="container border border-light shadow p-3 mb-5 bg-body rounded">
@@ -38,7 +39,7 @@
                                     <div class="col d-inline-block">
                                     <span class="text-xxl-center">@item.Quantity</span>
                                     @Html.ActionLink("+", "AddOneItemToCart", "ShopCart", new {dishId=item.Dish.ID}, new { @class="btn btn-outline-primary" })
-                                    @Html.ActionLink("-", "RemoveOneItemFromCart", "ShopCart", new {cartItemId=item.ShopCartItemId}, new { @class="btn btn-outline-primary" })
+                                    @Html.ActionLink("-", "RemoveOneItemFromCart", "ShopCart", new {cartItemId=item.ShopCartItemId.FirstOrDefault()}, new { @class="btn btn-outline-primary" })
                                     </div>
                                     <div class="col align-content-center"><h4>@item.Sum</h4></div>
                                 </div>
@@ -52,7 +53,7 @@
                                     <div class="col d-inline-block">
                                     <span class="text-xxl-center">@item.Quantity</span>
                                     @Html.ActionLink("+", "AddOneItemToCart", "ShopCart", new {dishId=item.Dish.ID}, new { @class="btn btn-outline-primary" })
-                                    @Html.ActionLink("-", "RemoveOneItemFromCart", "ShopCart", new {cartItemId=item.ShopCartItemId}, new { @class="btn btn-outline-primary" })
+                                    @Html.ActionLink("-", "RemoveOneItemFromCart", "ShopCart", new {cartItemId=item.ShopCartItemId.FirstOrDefault()}, new { @class="btn btn-outline-primary" })
                                     </div>
                                     <div class="col align-content-center"><h4>@item.Sum</h4></div>
                                 </div>
