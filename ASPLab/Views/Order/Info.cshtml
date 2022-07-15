@@ -19,29 +19,24 @@
             <div style="height: 75vh; overflow-x: hidden; overflow-y: auto">
                 @{
                     int i = 1;
+                    string style_class = "";
                     foreach (Position item in Model.Positions)
                     {
                         @if (i % 2 == 0)
                         {
-                            <div class="row bg-light align-items-start">
-                                <div class="col align-content-center"><img class="img-thumbnail" src="@item.Dish.Img"/></div>
-                                <div class="col align-content-center"><a asp-controller="Dish" asp-action="DishInfo" asp-route-dishID="@item.Dish.ID">@item.Dish.Name</a></div>
-                                <div class="col align-content-center">@item.Dish.Price</div>
-                                <div class="col align-content-center">@item.Quantity</div>
-                                <div class="col align-content-center"><h4>@item.Sum</h4></div>
-                            </div>
+                            style_class = new string("row bg-light align-items-start");
                         }
                         else
                         {
-                            <div class="row align-items-start">
-                                <div class="col align-content-center"><img class="img-thumbnail" src="@item.Dish.Img"/></div>
-                                <div class="col align-content-center"><a asp-controller="Dish" asp-action="DishInfo" asp-route-dishID="@item.Dish.ID">@item.Dish.Name</a></div>
-                                <div class="col align-content-center">@item.Dish.Price</div>
-                                <div class="col align-content-center">@item.Quantity</div>
-                                <div class="col align-content-center"><h4>@item.Sum</h4></div>
-                            </div>
-
+                            style_class = new string("row align-items-start");
                         }
+                        <div class="@style_class">
+                            <div class="col align-content-center"><img class="img-thumbnail" src="@item.Dish.Img"/></div>
+                            <div class="col align-content-center"><a asp-controller="Dish" asp-action="DishInfo" asp-route-dishID="@item.Dish.ID">@item.Dish.Name</a></div>
+                            <div class="col align-content-center">@item.Dish.Price</div>
+                            <div class="col align-content-center">@item.Quantity</div>
+                            <div class="col align-content-center"><h4>@item.Sum</h4></div>
+                        </div>
                         i++;
                     }
                 }

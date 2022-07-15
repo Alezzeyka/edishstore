@@ -1,18 +1,31 @@
 ﻿@model ASPLab.Data.Models.Dish;
-<body>
-<div class="row mt-5 mb-2">
-    <h1>Страница товара @Model.Name</h1>
-     @{
-    <div class="col-lg-4">
-            <img class="img-thumbnail" src="@Model.Img" alt="@Model.Name" />
-            <h2>Модель: @Model.Name</h2>
-            <p>Категория: @Model.Category.Name</p>
-            <p>Цвет: @Model.Color</p>
-            <p>Материал: @Model.Material</p>
-            <p>Объём: @Model.Volume</p>
-            <p>Цена: @Model.Price.ToString("c")</p>
-            <p><a class="btn btn-warning" asp-controller="ShopCart" asp-action="AddToCart" asp-route-dishID="@Model.ID">Добавить в корзину</a></p>
+<div class="container border border-light shadow p-3 mb-5 bg-body rounded">
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="text-center">
+                <img class="img-thumbnail" src="@Model.Img" alt="@Model.Name" />
+            </div>
+        </div>
+        <div class="col-sm-8">
+        
+                <div class="row"><h2>Модель: @Model.Name</h2></div>
+                <div class="row"><p>Категория: @Model.Category.Name</p></div>
+                <div class="row"><p>Цвет: @Model.Color</p></div>
+                <div class="row"><p>Материал: @Model.Material</p></div>
+                <div class="row"><p>Объём: @Model.Volume</p></div>
+                <div class="row"><h3>Цена: @Model.Price.ToString("c")</h3></div>
+        </div>
     </div>
-     }
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="d-grid gap-2">
+                @Html.ActionLink("Назад", "Index", "Home", null, new { @class="btn btn-outline-primary" })
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="d-grid gap-2">
+                @Html.ActionLink("Добавить в корзину", "AddToCart", "ShopCart", new {dishID=@Model.ID}, new { @class="btn btn-outline-success" })
+            </div>
+        </div>
+    </div>
 </div>
-</body>

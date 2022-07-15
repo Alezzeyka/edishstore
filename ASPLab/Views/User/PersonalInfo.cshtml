@@ -36,14 +36,22 @@
                         @Html.ActionLink("Удалить учетную запись", "DeleteUser", "User", null, new { @class = "btn btn-outline-danger" })
                     </div>
                 </li>
+                <li class="list-group-item align-items-start">
+                    <div class="d-grid gap-1">
+                        @Html.ActionLink("Назад", "Index", "Home", null, new { @class="btn btn-outline-primary" })
+                    </div>
+                </li>
             </ol>
         </div>
         <div class="col-sm-10">
-            <div class="row"><h2>Ваши заказы</h2></div>
+            <div class="row">
+                <h2>Ваши заказы</h2>
+            </div>
             <div class="row">
                 @{
                     if (Model.listUserOrderDetails.Count >= 1)
                     {
+                        string style_class = "";
                         int i = 1;
                         <div class="container border border-light shadow p-3 mb-5 bg-body rounded">
                             <div class="row bg-light bg-gradient align-items-start">
@@ -57,22 +65,18 @@
                                 {
                                     if(i%2==0)
                                     {
-                                    <div class="row bg-light align-items-start">
+                                    style_class = new string("row bg-light align-items-start");
+                                    }
+                                    else
+                                    {
+                                    style_class = new string("row align-items-start");   
+                                    }
+                                     <div class="@style_class">
                                         <div class="col d-grid" style="max-width:150px">@Html.ActionLink("Подробнее", "Info", "Order", new { orderID = item.OrderId }, new { @class = "btn btn-outline-info" })</div>
                                         <div class="col">@item.OrderNumber</div>
                                         <div class="col">@item.orderDate</div>
                                         <div class="col">@item.orderSum</div>
                                     </div>
-                                    }
-                                    else
-                                    {
-                                     <div class="row align-items-start">
-                                        <div class="col d-grid" style="max-width:150px">@Html.ActionLink("Подробнее", "Info", "Order", new { orderID = item.OrderId }, new { @class = "btn btn-outline-info" })</div>
-                                        <div class="col">@item.OrderNumber</div>
-                                        <div class="col">@item.orderDate</div>
-                                        <div class="col">@item.orderSum</div>
-                                    </div>   
-                                    }
                                     i++;
                                 }
                             </div>

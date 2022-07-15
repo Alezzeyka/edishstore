@@ -1,22 +1,15 @@
-﻿<!doctype html>
-<html>
-<head>
-        <meta naoverflow-wrapewport" content="width-device-width"/>
-        <title>List</title>
-</head>
-<body>
-    <div class="col">
-            <img class="img-thumbnail" src="@Model.Img" alt="@Model.Name" />
-            <div style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis">
-                <h2>Модель: @Model.Name</h2>
-            </div>
-            <p>Категория: @Model.Category.Name</p>
-            <p>Цена: @Model.Price.ToString("c")</p>
-            <div class="d-grid gap-2 d-inline-block">            
-            <a class="btn btn-warning" asp-controller="Dish" asp-action="DishInfo" asp-route-dishID="@Model.ID">Подробнее</a>
-                <a class="btn btn-warning" asp-controller="ShopCart" asp-action="AddToCart" asp-route-dishID="@Model.ID">Оформить заказ</a>
-                <a class="btn btn-warning" asp-controller="ShopCart" asp-action="AddToCartWithoutRedirection" asp-route-dishID="@Model.ID">Добавить в корзину</a>
-            </div>
+﻿<div class="border border-light pb-1">
+    <img class="img-thumbnail" src="@Model.Img" alt="@Model.Name" />
+    <div style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis">
+        <h2>Модель: @Model.Name</h2>
     </div>
-</body>
-</html>
+    <p>Категория: @Model.Category.Name</p>
+    <div class="text-center">
+        <h3>Цена: @Model.Price.ToString("c")</h3>
+    </div>
+    <div class="d-grid gap-1">            
+    <a class="btn btn-outline-primary" asp-controller="Dish" asp-action="DishInfo" asp-route-dishID="@Model.ID">Подробнее</a>
+    <a class="btn btn-outline-success" asp-controller="ShopCart" asp-action="AddToCart" asp-route-dishID="@Model.ID">Купить в один клик</a>
+    <a class="btn btn-outline-success" asp-controller="ShopCart" asp-action="AddToCartWithoutRedirection" asp-route-dishID="@Model.ID">Добавить в корзину</a>
+    </div>
+</div>
