@@ -3,6 +3,7 @@ using ASPLab.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Transactions;
 
 namespace ASPLab.Data.DB
 {
@@ -78,6 +79,22 @@ namespace ASPLab.Data.DB
                 categories[2].Dishes = cupDishes;
                 db.Dishes.AddRange(dishes);
                 db.Category.AddRange(categories);
+                List<UserRoles> roles = new List<UserRoles>
+                {
+                    new UserRoles{Role = "Admin"},
+                    new UserRoles{Role = "User"}
+                };
+                db.UserRole.AddRange(roles);
+                User superUser = new User
+                {
+                    Name = "SuperUser",
+                    Login = "super",
+                    Password = "super",
+                    Email = "super@super.com",
+                    PhoneNumber = "0000000000"
+                };
+                superUser.UserRoles = roles;
+                db.User.Add(superUser);
                 db.SaveChanges();
             }
         }

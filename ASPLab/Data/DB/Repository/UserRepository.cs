@@ -18,6 +18,7 @@ namespace ASPLab.Data.DB.Repository
 
         public void AddUser(User user)
         {
+            user.UserRoles = _db.UserRole.Where(ur => ur.Role == "User").ToList();
             _db.User.Add(user);
             _db.SaveChanges();
         }

@@ -42,5 +42,6 @@ namespace ASPLab.Data.Models
         [Required(ErrorMessage = "Укажите номер телефона")]
         public string PhoneNumber { get; set; }
         public List<Order> Orders { get; set; }
+        public List<UserRoles> UserRoles { get; set; }
     }
 }
