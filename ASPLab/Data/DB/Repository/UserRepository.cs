@@ -4,6 +4,7 @@ using ASPLab.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace ASPLab.Data.DB.Repository
 {
@@ -18,6 +19,7 @@ namespace ASPLab.Data.DB.Repository
 
         public void AddUser(User user)
         {
+            user.UserRoles = _db.UserRole.Where(ur => ur.Role == "User").ToList();
             _db.User.Add(user);
             _db.SaveChanges();
         }
@@ -30,7 +32,7 @@ namespace ASPLab.Data.DB.Repository
 
         public User GetUserById(Guid userId)
         {
-            return _db.User.Find(userId);
+            return _db.User.Where(u => u.ID == userId).Include(u => u.UserRoles).FirstOrDefault();
         }
 
         public bool IsPasswordValid(Guid userId,string password)

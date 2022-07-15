@@ -13,6 +13,7 @@ namespace ASPLab.Data.DB.Context
         public DbSet<User> User { get; set; }
         public DbSet<Order> Order { get; set; }
         public DbSet<OrderDetail> OrderDetail { get; set; }
+        public DbSet<UserRoles> UserRole { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasSequence<int>("OrderNumbers")
