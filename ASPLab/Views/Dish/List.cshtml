@@ -1,13 +1,14 @@
-﻿<!doctype html>
-<html>
-<head>
-        <meta name="viewport" content="width-device-width"/>
-        <title>List</title>
-</head>
-<body>
-    <h1>@Model.currCategory.Name</h1>
-    <div class="container">
-        <div class="row row-cols-4">
+﻿<body style="overflow:hidden">
+    <div class="container border border-light shadow p-3 mb-5 bg-body rounded">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="text-center"><h1>@Model.currCategory.Name</h1></div>
+            </div>
+            <div class="col-sm-8">
+
+            </div>
+        </div>
+        <div class="row row-cols-4" style="max-height: 85vh; overflow-x: hidden; overflow-y: auto">
             @{
             foreach (Dish dish in Model.AllDishes)
             {
@@ -16,4 +17,3 @@
         </div>
     </div>
 </body>
-</html>

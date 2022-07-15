@@ -1,14 +1,20 @@
 ﻿@model HomeViewModel
 <body style="overflow:hidden">
-<div class="row">
-    <h1>Вся посуда</h1>
-    <form class="d-flex" asp-controller="Dish" asp-action="ListName" method="post" >
-          <input class="form-control me-2" type="text" placeholder="Поиск" aria-label="Search" name="name">
-          <button class="btn btn-outline-success" type="submit">Найти</button>
-    </form>
-</div>    
     <div class="container border border-light shadow p-3 mb-5 bg-body rounded">
-        <div class="row row-cols-4" style="height: 85vh; overflow-x: hidden; overflow-y: auto">
+        <div class="row">
+            <div class="col-sm-4">            
+                <div class="text-center">
+                    <h1>Вся посуда</h1>
+                </div>
+            </div>
+            <div class="col-sm-8">
+            <form class="d-flex" asp-controller="Dish" asp-action="ListName" method="post" >
+                  <input class="form-control me-2" type="text" placeholder="Поиск" aria-label="Search" name="name">
+                  <button class="btn btn-outline-success" type="submit">Найти</button>
+            </form>
+            </div>
+        </div>    
+        <div class="row row-cols-4" style="max-height: 85vh; overflow-x: hidden; overflow-y: auto">
          @{
              foreach (Dish dish in Model.dishes){
              @Html.Partial("AllDish", dish)
