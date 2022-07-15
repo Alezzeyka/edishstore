@@ -1,27 +1,79 @@
-﻿@model ShopCartViewModel
-<!doctype html>
-<html>
-<head>
-        <meta name="viewport" content="width-device-width"/>
-        <title>List</title>
-</head>
-<body>
-    <h3>Корзина</h3>
-    <div class="container">
-        @{
-            float sum = 0;
-            foreach (var el in Model.ShopCart.listCartItems)
-            {
-            <div class="alert-warning mt-3">
-                <b>Посуда:</b> @el.Dish.Name<br/>
-                <b>Цена:</b> @el.Dish.Price.ToString("c")
+﻿@using ASPLab.Data.ViewModels.ShopCartInfo
+@using System.Linq;
+@model ShopCartViewModel
+<body style="overflow:hidden">
+        <div class="container border border-light shadow p-3 mb-5 bg-body rounded">
+            <div class="row bg-light bg-gradient">
+                <div class="col-sm-2"><h3>Корзина</h3></div>
+                <div class="col-sm-6"></div>
+                <div class="col-sm-2">
+                @if (@Model.Positions.Count >= 1)
+                {
+                <div class="d-grid gap-1">@Html.ActionLink("Оплатить", "AddOrder", "Order", null, new { @class="btn btn-outline-success" })</div>
+                }
                 </div>
-                sum += el.Dish.Price;
+                <div class="col-sm-2">
+                <div class="d-grid gap-1">@Html.ActionLink("Назад", "Index", "Home", null, new { @class="btn btn-outline-primary" })</div>
+                </div>
+            </div>
+            @if (@Model.Positions.Count >= 1)
+            {
+                <div class="row bg-light bg-gradient">
+                    <div class="col"></div>
+                    <div class="col"><h3>Название</h3></div>
+                    <div class="col"><h3>Цена</h3></div>
+                    <div class="col"><h3>Кол-во</h3></div>
+                    <div class="col"><h3>Сумма</h3></div>
+                </div>
+                <div style="height: 75vh; overflow-x: hidden; overflow-y: auto">
+                    @{
+                        int i = 1;
+                        foreach (ShopCartPosition item in Model.Positions)
+                        {
+                            @if (i % 2 == 0)
+                            {
+                                <div class="row bg-light align-items-start">
+                                    <div class="col align-content-center"><img class="img-thumbnail" src="@item.Dish.Img"/></div>
+                                    <div class="col align-content-center"><a asp-controller="Dish" asp-action="DishInfo" asp-route-dishID="@item.Dish.ID">@item.Dish.Name</a></div>
+                                    <div class="col align-content-center">@item.Dish.Price</div>
+                                    <div class="col d-inline-block">
+                                    <span class="text-xxl-center">@item.Quantity</span>
+                                    @Html.ActionLink("+", "AddOneItemToCart", "ShopCart", new {dishId=item.Dish.ID}, new { @class="btn btn-outline-primary" })
+                                    @Html.ActionLink("-", "RemoveOneItemFromCart", "ShopCart", new {cartItemId=item.ShopCartItemId.FirstOrDefault()}, new { @class="btn btn-outline-primary" })
+                                    </div>
+                                    <div class="col align-content-center"><h4>@item.Sum</h4></div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="row align-items-start">
+                                    <div class="col align-content-center"><img class="img-thumbnail" src="@item.Dish.Img"/></div>
+                                    <div class="col align-content-center"><a asp-controller="Dish" asp-action="DishInfo" asp-route-dishID="@item.Dish.ID">@item.Dish.Name</a></div>
+                                    <div class="col align-content-center">@item.Dish.Price</div>
+                                    <div class="col d-inline-block">
+                                    <span class="text-xxl-center">@item.Quantity</span>
+                                    @Html.ActionLink("+", "AddOneItemToCart", "ShopCart", new {dishId=item.Dish.ID}, new { @class="btn btn-outline-primary" })
+                                    @Html.ActionLink("-", "RemoveOneItemFromCart", "ShopCart", new {cartItemId=item.ShopCartItemId.FirstOrDefault()}, new { @class="btn btn-outline-primary" })
+                                    </div>
+                                    <div class="col align-content-center"><h4>@item.Sum</h4></div>
+                                </div>
+
+                            }
+                            i++;
+                        }
+                    }
+                </div>
+                <div class="row bg-light bg-gradient justify-content-center">
+                    <div class="col">
+                        <div class="d-grid gap-1">@Html.ActionLink("Очистить корзину", "RemoveAllItemsFromCart", "ShopCart", null, new { @class="btn btn-outline-danger" })</div>
+                    </div>
+                    <div class="col"><h3>Сумма: @Model.TotalSum</h3></div>
+                    <div class="col"></div>
+                </div>
             }
-            <b>Сумма:</b>@sum.ToString("c");
-        }
-     <hr/>
-     <a class="btn btn-danger m-5" asp-controller="Order" asp-action="AddOrder">Оплатить</a>
-    </div>
+            else
+            {
+            <h1>Корзина пуста</h1>
+            }
+        </div>
 </body>
-</html>

@@ -22,7 +22,7 @@ namespace ASPLab.Data.Controllers
         {
             List<ShopCartItem> cartItems = _shopCart.GetShopCartItems();
             _shopCart.listCartItems = cartItems;
-            return View(new ShopCartViewModel { ShopCart = _shopCart });
+            return View(new ShopCartViewModel (_shopCart));
         }
         public RedirectToActionResult AddToCart(Guid dishID)
         {
@@ -35,6 +35,28 @@ namespace ASPLab.Data.Controllers
             {
                 _shopCart.AddCartItem(dish);
             }
+            return RedirectToAction("Index");
+        }
+        //For quantity increment on ShopCart page, return value may be changed
+        public RedirectToActionResult AddOneItemToCart(Guid dishId)
+        {
+            Dish dish = _allDish.Dishes.FirstOrDefault(item => item.ID == dishId);
+            if (dish != null)
+            {
+                _shopCart.AddCartItem(dish);
+            }
+            return RedirectToAction("Index");
+        }
+        public RedirectToActionResult RemoveOneItemFromCart(Guid cartItemId)
+        {
+            _shopCart.listCartItems = _shopCart.GetShopCartItems();
+            _shopCart.RemoveCartItem(cartItemId);
+            return RedirectToAction("Index");
+        }
+        public RedirectToActionResult RemoveAllItemsFromCart()
+        {
+            _shopCart.listCartItems = _shopCart.GetShopCartItems();
+            _shopCart.RemoveAllShopCartItems();
             return RedirectToAction("Index");
         }
     }

@@ -1,16 +1,21 @@
 ﻿<!doctype html>
 <html>
 <head>
-        <meta name="viewport" content="width-device-width"/>
+        <meta naoverflow-wrapewport" content="width-device-width"/>
         <title>List</title>
 </head>
 <body>
-    <div class="col-lg-4">
+    <div class="col">
             <img class="img-thumbnail" src="@Model.Img" alt="@Model.Name" />
-            <h2>Модель: @Model.Name</h2>
+            <div style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis">
+                <h2>Модель: @Model.Name</h2>
+            </div>
             <p>Категория: @Model.Category.Name</p>
             <p>Цена: @Model.Price.ToString("c")</p>
-            <p><a class="btn btn-warning" asp-controller="Dish" asp-action="DishInfo" asp-route-dishID="@Model.ID">Подробнее</a></p>
+            <div class="d-grid gap-2 d-inline-block">            
+            <a class="btn btn-warning" asp-controller="Dish" asp-action="DishInfo" asp-route-dishID="@Model.ID">Подробнее</a>
+            <a class="btn btn-warning" asp-controller="ShopCart" asp-action="AddToCart" asp-route-dishID="@Model.ID">Добавить в корзину</a>
+            </div>
     </div>
 </body>
 </html>
