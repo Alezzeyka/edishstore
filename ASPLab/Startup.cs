@@ -45,6 +45,11 @@ namespace ASPLab
             });
             services.AddMemoryCache();
             services.AddSession();
+            services.AddAuthentication().AddGoogle(googleOptions =>
+            {
+                googleOptions.ClientId = @"144988717883-j3splm7df4486mf0mt9s3r33i79tldus.apps.googleusercontent.com";
+                googleOptions.ClientSecret = @"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";
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

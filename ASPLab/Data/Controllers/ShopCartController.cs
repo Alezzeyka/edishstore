@@ -24,27 +24,45 @@ namespace ASPLab.Data.Controllers
             _shopCart.listCartItems = cartItems;
             return View(new ShopCartViewModel (_shopCart));
         }
-        public RedirectToActionResult AddToCart(Guid dishID)
+
+        private bool AddItem(Guid dishID)
         {
             if (HttpContext.Session.GetString("UserID") == null)
             {
-                return RedirectToAction("LoginPage","User");
+                return false;
             }
             var dish = _allDish.Dishes.FirstOrDefault(item => item.ID == dishID);
             if (dish != null)
             {
                 _shopCart.AddCartItem(dish);
+                return true;
             }
-            return RedirectToAction("Index");
+
+            return false;
         }
-        //For quantity increment on ShopCart page, return value may be changed
-        public RedirectToActionResult AddOneItemToCart(Guid dishId)
+        public RedirectToActionResult AddToCart(Guid dishID)
         {
-            Dish dish = _allDish.Dishes.FirstOrDefault(item => item.ID == dishId);
-            if (dish != null)
+            if (AddItem(dishID))
             {
-                _shopCart.AddCartItem(dish);
+                return RedirectToAction("Index");
             }
+
+            return RedirectToAction("LoginPage", "User");
+        }
+
+        public RedirectToActionResult AddToCartWithoutRedirection(Guid dishID)
+        {
+            if (!AddItem(dishID))
+            {
+                return RedirectToAction("LoginPage", "User");
+            }
+
+            TempData["message"] = $"Товар {_allDish.GetDish(dishID).Name} успешно добавлен в корзину";
+            return RedirectToAction("Index", "Home");
+        }
+        public RedirectToActionResult AddOneItemToCart(Guid dishID)
+        {
+            AddItem(dishID);
             return RedirectToAction("Index");
         }
         public RedirectToActionResult RemoveOneItemFromCart(Guid cartItemId)
