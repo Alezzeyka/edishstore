@@ -29,6 +29,18 @@
                         @Model.user.PhoneNumber
                     </div>
                 </li>
+                @foreach (UserRoles role in Model.user.UserRoles)
+                {
+                    if (role.Role == "Admin")
+                    {
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">Роль:</div>
+                            @role.Role
+                        </div>
+                    </li>
+                    }
+                }
                 <li class="list-group-item align-items-start">
                     <div class="d-grid gap-1">
                         @Html.ActionLink("Изменить данные", "Edit", "User", null, new { @class = "btn btn-outline-primary" })
