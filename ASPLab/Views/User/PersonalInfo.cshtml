@@ -70,7 +70,7 @@
                       <label for="formFile" class="form-label">Добавить товар</label>
                         @using (Html.BeginForm("GetJson", "JsonUpload", FormMethod.Post, new { enctype = "multipart/form-data" }))
                         {                    
-                            <input class="form-control" type="file" id="formFile" onchange="this.form.submit()">
+                            <input class="form-control" type="file" id="file" name="file" onchange="this.form.submit()">
                         }                
                     </div>
             }
