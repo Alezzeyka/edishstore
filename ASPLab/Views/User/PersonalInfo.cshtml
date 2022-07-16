@@ -68,7 +68,7 @@
                 <h2>Загрузка файлов (JSON)</h2>
                     <div class="d-grid shadow-lg p-3 mb-5 bg-body rounded sticky-top">
                       <label for="formFile" class="form-label">Добавить товар</label>
-                        @using (Html.BeginForm("GetJson", "JsonUploadController", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        @using (Html.BeginForm("GetJson", "JsonUpload", FormMethod.Post, new { enctype = "multipart/form-data" }))
                         {                    
                             <input class="form-control" type="file" id="formFile" onchange="this.form.submit()">
                         }                
