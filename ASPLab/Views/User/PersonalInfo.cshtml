@@ -1,5 +1,17 @@
 ﻿@using ASPLab.Data.Models
 @model ASPLab.Data.ViewModels.UserOrderViewModel
+@{
+    bool isAdmin = false;
+    string userRole = null;
+}
+@foreach (UserRoles role in Model.user.UserRoles)
+{
+    if (role.Role == "Admin")
+    {
+        isAdmin = true;
+        userRole = role.Role;
+    }
+}
 <body style="overflow:hidden">
     <div class="row">
         <div class="col-sm-2">
@@ -29,17 +41,14 @@
                         @Model.user.PhoneNumber
                     </div>
                 </li>
-                @foreach (UserRoles role in Model.user.UserRoles)
+                @if(isAdmin)
                 {
-                    if (role.Role == "Admin")
-                    {
                     <li class="list-group-item d-flex justify-content-between align-items-start">
                         <div class="ms-2 me-auto">
                             <div class="fw-bold">Роль:</div>
-                            @role.Role
+                            @userRole
                         </div>
                     </li>
-                    }
                 }
                 <li class="list-group-item align-items-start">
                     <div class="d-grid gap-1">
@@ -54,6 +63,17 @@
                     </div>
                 </li>
             </ol>
+            @if (isAdmin)
+            {
+                <h2>Загрузка файлов (JSON)</h2>
+                    <div class="d-grid shadow-lg p-3 mb-5 bg-body rounded sticky-top">
+                      <label for="formFile" class="form-label">Добавить товар</label>
+                        @using (Html.BeginForm("GetJson", "JsonUploadController", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {                    
+                            <input class="form-control" type="file" id="formFile" onchange="this.form.submit()">
+                        }                
+                    </div>
+            }
         </div>
         <div class="col-sm-10">
             <div class="row">
@@ -65,15 +85,15 @@
                     {
                         string style_class = "";
                         int i = 1;
-                        <div class="container border border-light shadow p-3 mb-5 bg-body rounded">
-                            <div class="row bg-light bg-gradient align-items-start">
-                                <div class="col" style="max-width:150px"></div>
-                                <div class="col"><h3>ID</h3></div>
-                                <div class="col"><h3>Дата</h3></div>
-                                <div class="col"><h3>Сумма</h3></div>
-                            </div>
-                            <div style="height: 85vh; overflow-x: hidden; overflow-y: auto">
-                                @foreach (UserOrderDetails item in Model.listUserOrderDetails)
+                            <div class="container border border-light shadow p-3 mb-5 bg-body rounded">
+                                <div class="row bg-light bg-gradient align-items-start">
+                                    <div class="col" style="max-width:150px"></div>
+                                    <div class="col"><h3>ID</h3></div>
+                                    <div class="col"><h3>Дата</h3></div>
+                                    <div class="col"><h3>Сумма</h3></div>
+                                </div>
+                                <div style="height: 85vh; overflow-x: hidden; overflow-y: auto">
+                                    @foreach (UserOrderDetails item in Model.listUserOrderDetails)
                                 {
                                     if(i%2==0)
                                     {
@@ -83,20 +103,20 @@
                                     {
                                     style_class = new string("row align-items-start");   
                                     }
-                                     <div class="@style_class">
-                                        <div class="col d-grid" style="max-width:150px">@Html.ActionLink("Подробнее", "Info", "Order", new { orderID = item.OrderId }, new { @class = "btn btn-outline-info" })</div>
-                                        <div class="col">@item.OrderNumber</div>
-                                        <div class="col">@item.orderDate</div>
-                                        <div class="col">@item.orderSum</div>
-                                    </div>
+                                         <div class="@style_class">
+                                            <div class="col d-grid" style="max-width:150px">@Html.ActionLink("Подробнее", "Info", "Order", new { orderID = item.OrderId }, new { @class = "btn btn-outline-info" })</div>
+                                            <div class="col">@item.OrderNumber</div>
+                                            <div class="col">@item.orderDate</div>
+                                            <div class="col">@item.orderSum</div>
+                                        </div>
                                     i++;
                                 }
+                                </div>
                             </div>
-                        </div>
                     }
                     else
                     {
-                        <h3>У вас еще нет заказов</h3>
+                            <h3>У вас еще нет заказов</h3>
                     }
                 }
             </div>
