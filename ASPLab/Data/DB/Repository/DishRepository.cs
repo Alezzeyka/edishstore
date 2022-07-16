@@ -20,6 +20,12 @@ namespace ASPLab.Data.DB.Repository
         public Dish GetDish(Guid dishID) => _db.Dishes
             .Include(dish => dish.Category)
             .FirstOrDefault(dish => dish.ID == dishID);
+
+        public int AddRange(List<Dish> dishes)
+        {
+            _db.AddRange(dishes);
+            return _db.SaveChanges();
+        }
         
     }
 }

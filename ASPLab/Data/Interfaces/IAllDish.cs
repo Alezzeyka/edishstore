@@ -8,5 +8,6 @@ namespace ASPLab.Data.Interfaces
     {
         IEnumerable<Dish> Dishes { get; }
         Dish GetDish(Guid dishID);
+        int AddRange(List<Dish> dishes);
     }
 }

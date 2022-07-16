@@ -54,5 +54,10 @@ namespace ASPLab.Data.Mocks
         {
             throw new NotImplementedException();
         }
+
+        public int AddRange(List<Dish> dishes)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
