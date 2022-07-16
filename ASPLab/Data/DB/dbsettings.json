@@ -1,5 +1,5 @@
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Server=localhost;Database=DishShop;Trusted_Connection=True;MultipleActiveResultSets=true"
+    "DefaultConnection": "Server=localhost;Database=DishShop;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True"
   }
 }
