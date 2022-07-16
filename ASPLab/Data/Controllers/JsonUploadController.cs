@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using ASPLab.Data.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 using System.IO;
 using ASPLab.Data.Models;
 using ASPLab.Services;
@@ -21,28 +20,38 @@ namespace ASPLab.Data.Controllers
 
         public RedirectToActionResult GetJson(IFormFile file)
         {
-            int recordsCount;
-            try
-            {
-                var filePath = Path.GetTempFileName();
-
+           /* try
+            {*/
+                int recordsCount;
+                var filePath = Directory.GetCurrentDirectory() + "\\jsonfile.json";
                 using (var stream = System.IO.File.Create(filePath))
                 {
                     file.CopyToAsync(stream);
-                    List<Dish> dishList = JsonParser.ParseDishes(JObject.Parse(file.FileName));
-                    recordsCount = _dish.AddRange(dishList);
                 }
-            }
-            catch (Exception ex)
-            {
-                TempData["error"] = ex.Message;
+
+                string jsonString = System.IO.File.ReadAllText(filePath); //.ReadAllBytes(filePath);
+                List<Dish> dishList = JsonParser.ParseDishes(jsonString);
+                System.IO.File.Delete(filePath);
+                foreach (Dish dish in dishList)
+                {
+                    if (_dish.GetCategoryByName(dish.Category.Name) == null)
+                    {
+                        TempData["error"] = $"Категория {dish.Category.Name} не существует";
+                        return RedirectToAction("PersonalInfo", "User");
+                    }
+
+                    dish.Category = _dish.GetCategoryByName(dish.Category.Name);
+                }
+
+                recordsCount = _dish.AddRange(dishList);
+                TempData["message"] = $"Успешно добавлено {recordsCount} записей";
                 return RedirectToAction("PersonalInfo", "User");
             }
-            TempData["message"] = $"Успешно добавлено {recordsCount} записей";
-            return RedirectToAction("PersonalInfo", "User");
-
+            /*catch (Exception ex)
+            {
+                TempData["error"] = $"Ошибка загрузки файла";
+                return RedirectToAction("PersonalInfo", "User");
+            }*/
         }
-
-        
     }
-}
+//}

@@ -26,6 +26,10 @@ namespace ASPLab.Data.DB.Repository
             _db.AddRange(dishes);
             return _db.SaveChanges();
         }
-        
+
+        public Category GetCategoryByName(string name)
+        {
+            return _db.Category.FirstOrDefault(c => c.Name == name);
+        }
     }
 }

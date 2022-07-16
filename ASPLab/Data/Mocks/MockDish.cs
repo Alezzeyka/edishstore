@@ -59,5 +59,10 @@ namespace ASPLab.Data.Mocks
         {
             throw new NotImplementedException();
         }
+
+        public Category GetCategoryByName(string name)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
