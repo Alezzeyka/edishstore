@@ -20,38 +20,16 @@ namespace ASPLab.Data.Controllers
 
         public RedirectToActionResult GetJson(IFormFile file)
         {
-           /* try
-            {*/
-                int recordsCount;
-                var filePath = Directory.GetCurrentDirectory() + "\\jsonfile.json";
-                using (var stream = System.IO.File.Create(filePath))
-                {
-                    file.CopyToAsync(stream);
-                }
-
-                string jsonString = System.IO.File.ReadAllText(filePath); //.ReadAllBytes(filePath);
-                List<Dish> dishList = JsonParser.ParseDishes(jsonString);
-                System.IO.File.Delete(filePath);
-                foreach (Dish dish in dishList)
-                {
-                    if (_dish.GetCategoryByName(dish.Category.Name) == null)
-                    {
-                        TempData["error"] = $"Категория {dish.Category.Name} не существует";
-                        return RedirectToAction("PersonalInfo", "User");
-                    }
-
-                    dish.Category = _dish.GetCategoryByName(dish.Category.Name);
-                }
-
-                recordsCount = _dish.AddRange(dishList);
-                TempData["message"] = $"Успешно добавлено {recordsCount} записей";
-                return RedirectToAction("PersonalInfo", "User");
-            }
-            /*catch (Exception ex)
+            string fileName = System.IO.Path.GetFileName(file.FileName);
+            var filePath = Directory.GetCurrentDirectory() + "\\jsonfile.json";
+            using (var stream = System.IO.File.Create(filePath))
             {
-                TempData["error"] = $"Ошибка загрузки файла";
-                return RedirectToAction("PersonalInfo", "User");
-            }*/
+                file.CopyToAsync(stream);
+            }
+            List<Dish> dishList = JsonParser.ParseDishes(filePath);
+            System.IO.File.Delete(filePath);
+            TempData["message"] = $"Успешно добавлено {dishList.Count} записей";
+            return RedirectToAction("PersonalInfo", "User");
         }
     }
-//}
+}

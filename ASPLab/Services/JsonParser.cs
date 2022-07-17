@@ -4,38 +4,21 @@ using System.Text;
 using System.Text.Json;
 using ASPLab.Data.Models;
 using System.Text.Json;
+using System.Text.Unicode;
+using System.Text.Encodings;
+using System.IO;
 
 namespace ASPLab.Services
 {
     public static class JsonParser
     {
         public static string JsonPath;
-        public static List<Dish> ParseDishes(string jsonByte)
+        public static List<Dish> ParseDishes(string filePath)
         {
-            var dishes = JsonSerializer.Deserialize<List<Dish>>(jsonByte,new JsonSerializerOptions{ })!;
+            string jsonString = File.ReadAllText(filePath);
+            List<Dish> Dishes = JsonSerializer.Deserialize<List<Dish>>(jsonString)!;
 
-            var numb = 0;
-            
-            /*if (jObject["Dishes"] != null)
-            {
-                foreach (var item in jObject["Dishes"])
-                {
-                    Dish dish = JsonSerializer.Deserialize<Dish>(item);
-                    dishes.Add(
-                        new Dish
-                        {
-                            Name = EncodeString(item["Name"]),
-                            Price = float.Parse(item["Price"].ToString().Replace(".",",")),
-                            Color = item["Color"].ToString(),
-                            Material = item["Material"].ToString(),
-                            Volume = ushort.Parse(item["Volume"].ToString()),
-                            Img = item["Img"].ToString(),
-                            Category = new Category{Name = EncodeString(item["Category"].ToString()) }
-                        });
-                }
-                return dishes;
-            }*/
-            return dishes;
+            return Dishes;
         }
 
         private static string EncodeString(string initString)
