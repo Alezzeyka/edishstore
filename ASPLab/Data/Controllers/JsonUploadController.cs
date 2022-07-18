@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using System.IO;
 using ASPLab.Data.Models;
+using ASPLab.Exceptions;
 using ASPLab.Services;
 using Microsoft.AspNetCore.Http;
 
@@ -13,6 +14,7 @@ namespace ASPLab.Data.Controllers
     public class JsonUploadController:Controller
     {
         private IAllDish _dish;
+        private string _filePath = Directory.GetCurrentDirectory() + "\\jsonfile.json";
         public JsonUploadController(IAllDish dish)
         {
             _dish=dish;
@@ -24,14 +26,12 @@ namespace ASPLab.Data.Controllers
             {
                 int recordsCount;
                 string fileName = System.IO.Path.GetFileName(file.FileName);
-                var filePath = Directory.GetCurrentDirectory() + "\\jsonfile.json";
-                using (var stream = System.IO.File.Create(filePath))
+                using (var stream = System.IO.File.Create(_filePath))
                 {
-                    file.CopyToAsync(stream);
+                    file.CopyTo(stream);
                 }
-
-                List<Dish> dishList = JsonParser.ParseDishes(filePath);
-                System.IO.File.Delete(filePath);
+                List<Dish> dishList = JsonParser.ParseDishes(_filePath);
+                System.IO.File.Delete(_filePath);
                 foreach (Dish dish in dishList)
                 {
                     Category category = _dish.GetCategoryByName(dish.Category.Name);
@@ -48,9 +48,16 @@ namespace ASPLab.Data.Controllers
                 TempData["message"] = $"Успешно добавлено {recordsCount} записей";
                 return RedirectToAction("PersonalInfo", "User");
             }
+            catch (JsonEncodeException ex)
+            {
+                System.IO.File.Delete(_filePath);
+                TempData["error"] = $"Ошибка загрузки файла: {ex.Message}";
+                return RedirectToAction("PersonalInfo", "User");
+            }
             catch (Exception ex)
             {
-                TempData["error"] = $"Ошибка загрузки файла";
+                System.IO.File.Delete(_filePath);
+                TempData["error"] = $"Ошибка загрузки файла {ex.Message}";
                 return RedirectToAction("PersonalInfo", "User");
             }
         }
