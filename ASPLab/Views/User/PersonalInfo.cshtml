@@ -67,10 +67,10 @@
             {
                 <h2>Загрузка файлов (JSON)</h2>
                     <div class="d-grid shadow-lg p-3 mb-5 bg-body rounded sticky-top">
-                      <label for="formFile" class="form-label">Добавить товар</label>
+                      <label for="formFile" class="form-label">Добавить товар (JSON должен быть в UTF8)</label>
                         @using (Html.BeginForm("GetJson", "JsonUpload", FormMethod.Post, new { enctype = "multipart/form-data" }))
                         {                    
-                            <input class="form-control" type="file" id="file" name="file" onchange="this.form.submit()">
+                            <input class="form-control" type="file" id="file" name="file" onchange="this.form.submit()" title="JSON файл должен быть в кодировке UTF8">
                         }                
                     </div>
             }
