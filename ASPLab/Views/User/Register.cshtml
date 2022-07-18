@@ -1,44 +1,62 @@
 ﻿@model ASPLab.Data.Models.User
-<body>
-<div class="row mt-5 mb-2">
- <h3>Регистрация</h3>
- <form asp-action="AddUser" method="post" class="formhorizontal">
-     <div class="form-group">
-         <label asp-for="Name"></label>
-         <div class="col-md-5">
-             <input asp-for="Name" class="form-control" />
-             <span asp-validation-for="Name" class="text-danger"></span>
-         </div>
-     </div>
-     <div class="form-group">
-         <label asp-for="Login"></label>
-         <div class="col-md-5">
-             <input asp-for="Login" class="form-control" />
-             <span asp-validation-for="Login" class="text-danger"></span>
-         </div>
-     </div>
-     <div class="form-group">
-         <label asp-for="Password"></label>
-         <div class="col-md-5">
-             <input asp-for="Password" class="form-control" />
-             <span asp-validation-for="Password" class="text-danger"></span>
-         </div>
-     </div>
-     <div class="form-group">
-         <label asp-for="Email"></label>
-         <div class="col-md-5">
-             <input asp-for="Email" class="form-control" />
-             <span asp-validation-for="Email" class="text-danger"></span>
-         </div>
-     </div>
-     <div class="form-group">
-         <label asp-for="PhoneNumber"></label>
-         <div class="col-md-5">
-             <input asp-for="PhoneNumber" class="form-control" />
-             <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-         </div>
-     </div>
-     <input class="btn btn-success" type="submit" value="Зарегистрироваться"/>
- </form>
+<meta name="google-signin-client_id" content="521984442591-f1hslapnak34rgn818au00hbum23sp9m.apps.googleusercontent.com">
+<div class="container">
+    <div class="row" style="height:100vh">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4 shadow-lg p-3 mb-5 bg-body rounded">
+            <h3>Регистрация</h3>
+            <form asp-action="AddUser" method="post" class="formhorizontal">
+                <div class="form-group">
+                    <label asp-for="Name"></label>
+                    <div>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Login"></label>
+                    <div>
+                        <input asp-for="Login" class="form-control" />
+                        <span asp-validation-for="Login" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password"></label>
+                    <div>
+                        <input asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email"></label>
+                    <div>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PhoneNumber"></label>
+                    <div>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                </div>
+            <div class="row">
+                    <div class="d-grid gap-2">
+                        <input class="btn btn-success" type="submit" value="Войти" style="margin-top:6px;"/>
+                    </div>
+            </div>
+            <div class="row">
+                <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            </div>
+            </form>
+        </div>
+        <div class="col-sm-4"></div>
+    </div>
 </div>
-</body>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script>
+function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+}
+</script>

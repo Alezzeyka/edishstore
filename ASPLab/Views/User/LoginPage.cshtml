@@ -1,22 +1,39 @@
 ﻿@model ASPLab.Data.Models.User
-
-<body>
-    <div class="row mt-5 mb-2">
-    <h3>Вход</h3>
-    <form asp-action="Login" method="post" class="formhorizontal">
-     <div class="form-group">
-         <a>Логин</a>
-         <div class="col-md-5">
-             <input class="form-control me-2" type="text" placeholder="Логин" aria-label="Login" name="login">
-         </div>
-     </div>
-     <div class="form-group">
-         <a>Пароль</a>
-         <div class="col-md-5">
-             <input class="form-control me-2" type="password" placeholder="Пароль" aria-label="Password" name="password">
-         </div>
-     </div>
-     <input class="btn btn-success" type="submit" value="Войти" style="margin-top:6px;"/>
- </form>
+<meta name="google-signin-client_id" content="521984442591-f1hslapnak34rgn818au00hbum23sp9m.apps.googleusercontent.com">
+<div class="container">
+    <div class=row style="height:100vh">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4 shadow-lg p-3 mb-5 bg-body rounded">
+        <h3>Вход</h3>
+        <form asp-action="Login" method="post" class="formhorizontal">
+                <div class="form-group">
+                    <a>Логин</a>
+                    <div >
+                        <input class="form-control me-2" type="text" placeholder="Логин" aria-label="Login" name="login">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <a>Пароль</a>
+                    <div >
+                        <input class="form-control me-2" type="password" placeholder="Пароль" aria-label="Password" name="password">
+                    </div>
+                </div>
+            <div class="row">
+                    <div class="d-grid gap-2">
+                        <input class="btn btn-success" type="submit" value="Войти" style="margin-top:6px;"/>
+                    </div>
+            </div>
+            <div class="row">
+                <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            </div>
+        </form>
+    </div>
+    <div class="col-sm-4"></div>
+    </div>
  </div>
-</body>
+ <script src="https://apis.google.com/js/platform.js" async defer></script>
+<script>
+function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+}
+</script>
