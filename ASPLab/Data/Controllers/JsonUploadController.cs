@@ -20,16 +20,44 @@ namespace ASPLab.Data.Controllers
 
         public RedirectToActionResult GetJson(IFormFile file)
         {
-            string fileName = System.IO.Path.GetFileName(file.FileName);
-            var filePath = Directory.GetCurrentDirectory() + "\\jsonfile.json";
-            using (var stream = System.IO.File.Create(filePath))
+            try
             {
-                file.CopyToAsync(stream);
+                int recordsCount;
+                string fileName = System.IO.Path.GetFileName(file.FileName);
+                var filePath = Directory.GetCurrentDirectory() + "\\jsonfile.json";
+                using (var stream = System.IO.File.Create(filePath))
+                {
+                    file.CopyToAsync(stream);
+                }
+
+                List<Dish> dishList = JsonParser.ParseDishes(filePath);
+                System.IO.File.Delete(filePath);
+                foreach (Dish dish in dishList)
+                {
+                    Category category = _dish.GetCategoryByName(dish.Category.Name);
+                    if (category == null)
+                    {
+                        TempData["error"] = $"Категория {dish.Category.Name} не существует";
+                        return RedirectToAction("PersonalInfo", "User");
+                    }
+
+                    dish.Category = category;
+                }
+
+                recordsCount = _dish.AddRange(dishList);
+                TempData["message"] = $"Успешно добавлено {recordsCount} записей";
+                return RedirectToAction("PersonalInfo", "User");
             }
-            List<Dish> dishList = JsonParser.ParseDishes(filePath);
-            System.IO.File.Delete(filePath);
-            TempData["message"] = $"Успешно добавлено {dishList.Count} записей";
-            return RedirectToAction("PersonalInfo", "User");
+            catch (Exception ex)
+            {
+                TempData["error"] = $"Ошибка загрузки файла";
+                return RedirectToAction("PersonalInfo", "User");
+            }
         }
+
     }
 }
+
+
+
+
